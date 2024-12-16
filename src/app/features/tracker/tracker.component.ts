@@ -7,8 +7,6 @@ import { PortfolioListComponent } from './components/portfolio-list/portfolio-li
   standalone: true,
   imports: [RouterOutlet, PortfolioListComponent],
   templateUrl: './tracker.component.html',
-  styleUrl: './tracker.component.css'
+  styleUrl: './tracker.component.css',
 })
-export class TrackerComponent {
-
-}
+export class TrackerComponent {}

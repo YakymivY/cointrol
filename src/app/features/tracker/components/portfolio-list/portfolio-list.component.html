@@ -1,1 +1,4 @@
 <p>portfolio-list works!</p>
+@for(asset of assets; track asset.asset) {
+  <p>{{asset.asset}} - {{asset.rate | number: '1.1-3'}}$ Have: {{asset.amount}} Total: {{ asset.amount * (asset.rate ?? 0) }}</p>
+}

@@ -1,4 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
 
+@font-face {
+  font-family: 'Questrial';
+  src: url('./assets/fonts/Questrial.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #5b09b0;
+  --secondary-color: #9040e6;
+  /* --mdc-filled-text-field-caret-color: var(--primary-color);
+  --mdc-filled-text-field-focus-active-indicator-color: var(--primary-color);
+  --mdc-filled-text-field-focus-label-text-color: var(--primary-color); */
+
+}
+
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body { 
+  margin: 0;
+  font-family: 'Questrial', sans-serif;
+  background-color: black;
+  color: white;
+}
+
+
+a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+a:hover {
+  color: var(--primary-color);
+}

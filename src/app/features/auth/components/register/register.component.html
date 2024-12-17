@@ -34,7 +34,11 @@
         }
       </mat-form-field>
 
-      <button mat-raised-button type="submit" class="" [disabled]="registerForm.invalid">Sign up</button>
+      @if (errorMessage) {
+        <mat-error>{{ errorMessage }}</mat-error>
+      }
+
+      <button mat-raised-button type="submit" class="" [disabled]="registerForm.invalid">{{ isSubmitting ? 'Wait...' : 'Sign up' }}</button>
 
       <p class="register__link">Already with us? <a [routerLink]="'/auth/login'">Come in!</a></p>
     </form>

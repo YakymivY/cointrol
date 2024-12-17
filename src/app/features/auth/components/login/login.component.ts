@@ -9,9 +9,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Route, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { LoginRequest } from '../../interfaces/login-request.interface';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +35,7 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    // private route: Route,
+    private router: Router,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -52,6 +53,7 @@ export class LoginComponent {
           this.saveToken(response.token);
           this.isSubmitting = false;
           this.errorMessage = null;
+          this.router.navigateByUrl('/portfolio');
         },
         error: (error: Error) => {
           console.error('Login failed', error);

@@ -1,4 +1,14 @@
-<p>portfolio-list works!</p>
-@for(asset of assets; track asset.asset) {
-  <p>{{asset.asset}} - {{asset.rate | number: '1.1-3'}}$ Have: {{asset.amount}} Total: {{ asset.amount * (asset.rate ?? 0) }}</p>
-}
+<table mat-table [dataSource]="assetList">
+  <ng-container matColumnDef="asset">
+    <th mat-header-cell *matHeaderCellDef> Asset</th>
+    <td mat-cell *matCellDef="let element">{{ element.asset }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="amount">
+    <th mat-header-cell *matHeaderCellDef> Amount</th>
+    <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

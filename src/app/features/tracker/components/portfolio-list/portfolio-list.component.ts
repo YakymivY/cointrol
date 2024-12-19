@@ -1,23 +1,15 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { PortfolioListService } from '../../services/portfolio-list.service';
-import { ExchangeRate } from '../../interfaces/exchange_rate.interface';
-import { PortfolioAsset } from '../../interfaces/portfolio-asset.interface';
 import { MatTableModule } from '@angular/material/table';
 import { WebsocketService } from '../../services/websocket.service';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { fadeAnimation } from '../../animations/portfolio.animations';
+import { PricePipe } from '../../pipes/price.pipe';
 
 @Component({
   selector: 'app-portfolio-list',
   standalone: true,
-  imports: [DecimalPipe, MatTableModule],
+  imports: [DecimalPipe, MatTableModule, PricePipe],
   templateUrl: './portfolio-list.component.html',
   styleUrl: './portfolio-list.component.css',
   animations: [fadeAnimation],

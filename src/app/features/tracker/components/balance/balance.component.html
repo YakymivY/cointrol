@@ -1,0 +1,6 @@
+<div class="balance-container">
+  <button mat-flat-button class="tx-button">+ New Transaction</button>
+  <span class="balance__record record-secondary">Deposit: {{balance?.deposit | number: '1.2-2'}}$</span>
+  <span class="balance__record record-secondary">Withdraw: {{balance?.withdraw | number: '1.2-2'}}$</span>
+  <span class="balance__record record-primary">Balance: {{balance?.balance | number: '1.2-2'}}$</span>
+</div>

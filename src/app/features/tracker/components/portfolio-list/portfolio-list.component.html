@@ -1,88 +1,142 @@
-<table mat-table [dataSource]="portfolioData.assets">
-  <!-- Asset column -->
-  <ng-container matColumnDef="asset">
-    <th mat-header-cell *matHeaderCellDef>Asset</th>
-    <td mat-cell *matCellDef="let element">{{ element.asset }}</td>
-  </ng-container>
+@if (dataSource) {
+  <table mat-table [dataSource]="dataSource">
+    <!-- Asset column -->
+    <ng-container matColumnDef="asset">
+      <th mat-header-cell *matHeaderCellDef>Asset</th>
+      <td mat-cell *matCellDef="let element">{{ element.asset }}</td>
+    </ng-container>
 
-  <!-- Price column -->
-  <ng-container matColumnDef="price">
-    <th mat-header-cell *matHeaderCellDef>Price</th>
-    <td mat-cell *matCellDef="let element">${{ element.price | price }}</td>
-  </ng-container>
+    <!-- Price column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>Price</th>
+      <td mat-cell *matCellDef="let element" @fadeInOut>${{ element.price | price }}</td>
+    </ng-container>
 
-  <!-- 1h change -->
-  <ng-container matColumnDef="1h">
-    <th mat-header-cell *matHeaderCellDef>1H</th>
-    <td class="portfolio__cell" mat-cell *matCellDef="let element" (mouseover)="change1hOnMouseOver(element)" (mouseleave)="change1hOnMouseLeave(element)" (focus)="change1hOnFocus()">
-      @if (showExtra1h !== element.asset) {
-        <div class="portfolio__extra" @fadeInOut>{{ element.historicalData['1h'].change }}%</div>
-      } @else {
-        <div class="portfolio__extra" @fadeInOut>${{ element.historicalData['1h'].price | price }}</div>
-      }
-    </td>
-  </ng-container>
+    <!-- 1h change -->
+    <ng-container matColumnDef="1h">
+      <th mat-header-cell *matHeaderCellDef>1H</th>
+      <td
+        class="portfolio__cell"
+        mat-cell
+        *matCellDef="let element"
+        (mouseover)="change1hOnMouseOver(element)"
+        (mouseleave)="change1hOnMouseLeave(element)"
+        (focus)="change1hOnFocus()"
+      >
+        @if (showExtra1h !== element.asset) {
+          <div class="portfolio__extra" @fadeInOut>
+            {{ element.historicalData["1h"].change }}%
+          </div>
+        } @else {
+          <div class="portfolio__extra" @fadeInOut>
+            ${{ element.historicalData["1h"].price | price }}
+          </div>
+        }
+      </td>
+    </ng-container>
 
-  <!-- 24h change -->
-  <ng-container matColumnDef="24h">
-    <th mat-header-cell *matHeaderCellDef>24H</th>
-    <td class="portfolio__cell" mat-cell *matCellDef="let element" (mouseover)="change24hOnMouseOver(element)" (mouseleave)="change24hOnMouseLeave(element)" (focus)="change24hOnFocus()">
-      @if (showExtra24h !== element.asset) {
-        <div class="portfolio__extra" @fadeInOut>{{ element.historicalData['1d'].change }}%</div>
-      } @else {
-        <div class="portfolio__extra" @fadeInOut>${{ element.historicalData['1d'].price | price }}</div>
-      }
-    </td>
-  </ng-container>
+    <!-- 24h change -->
+    <ng-container matColumnDef="24h">
+      <th mat-header-cell *matHeaderCellDef>24H</th>
+      <td
+        class="portfolio__cell"
+        mat-cell
+        *matCellDef="let element"
+        (mouseover)="change24hOnMouseOver(element)"
+        (mouseleave)="change24hOnMouseLeave(element)"
+        (focus)="change24hOnFocus()"
+      >
+        @if (showExtra24h !== element.asset) {
+          <div class="portfolio__extra" @fadeInOut>
+            {{ element.historicalData["1d"].change }}%
+          </div>
+        } @else {
+          <div class="portfolio__extra" @fadeInOut>
+            ${{ element.historicalData["1d"].price | price }}
+          </div>
+        }
+      </td>
+    </ng-container>
 
-  <!-- 7d change -->
-  <ng-container matColumnDef="7d">
-    <th mat-header-cell *matHeaderCellDef>7D</th>
-    <td class="portfolio__cell" mat-cell *matCellDef="let element" (mouseover)="change7dOnMouseOver(element)" (mouseleave)="change7dOnMouseLeave(element)" (focus)="change7dOnFocus()">
-      @if (showExtra7d !== element.asset) {
-        <div class="portfolio__extra" @fadeInOut>{{ element.historicalData['7d'].change }}%</div>
-      } @else {
-        <div class="portfolio__extra" @fadeInOut>${{ element.historicalData['7d'].price | price }}</div>
-      }
-    </td>
-  </ng-container>
+    <!-- 7d change -->
+    <ng-container matColumnDef="7d">
+      <th mat-header-cell *matHeaderCellDef>7D</th>
+      <td
+        class="portfolio__cell"
+        mat-cell
+        *matCellDef="let element"
+        (mouseover)="change7dOnMouseOver(element)"
+        (mouseleave)="change7dOnMouseLeave(element)"
+        (focus)="change7dOnFocus()"
+      >
+        @if (showExtra7d !== element.asset) {
+          <div class="portfolio__extra" @fadeInOut>
+            {{ element.historicalData["7d"].change }}%
+          </div>
+        } @else {
+          <div class="portfolio__extra" @fadeInOut>
+            ${{ element.historicalData["7d"].price | price }}
+          </div>
+        }
+      </td>
+    </ng-container>
 
-  <!-- Amount column -->
-  <ng-container matColumnDef="amount">
-    <th mat-header-cell *matHeaderCellDef>Amount</th>
-    <td class="portfolio__cell" mat-cell *matCellDef="let element" (mouseover)="amountOnMouseOver(element)" (mouseleave)="amountOnMouseLeave(element)" (focus)="amountOnFocus()">
-      @if (showExtraAmount !== element.asset) {
-        <div class="portfolio__extra" @fadeInOut>{{ element.amount }} {{ element.asset }}</div>
-      } @else {
-        <div class="portfolio__extra" @fadeInOut>${{ element.totalSpent | price }}</div>
-      }
-    </td>
-  </ng-container>
+    <!-- Amount column -->
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef>Amount</th>
+      <td
+        class="portfolio__cell"
+        mat-cell
+        *matCellDef="let element"
+        (mouseover)="amountOnMouseOver(element)"
+        (mouseleave)="amountOnMouseLeave(element)"
+        (focus)="amountOnFocus()"
+      >
+        @if (showExtraAmount !== element.asset) {
+          <div class="portfolio__extra" @fadeInOut>
+            {{ element.amount }} {{ element.asset }}
+          </div>
+        } @else {
+          <div class="portfolio__extra" @fadeInOut>
+            ${{ element.totalSpent | price }}
+          </div>
+        }
+      </td>
+    </ng-container>
 
-  <!-- Average price -->
-  <ng-container matColumnDef="avg">
-    <th mat-header-cell *matHeaderCellDef>Average price</th>
-    <td mat-cell *matCellDef="let element">${{ element.average | price }}</td>
-  </ng-container>
+    <!-- Average price -->
+    <ng-container matColumnDef="avg">
+      <th mat-header-cell *matHeaderCellDef>Average price</th>
+      <td mat-cell *matCellDef="let element">${{ element.average | price }}</td>
+    </ng-container>
 
-  <!-- PnL -->
-  <ng-container matColumnDef="pnl">
-    <th mat-header-cell *matHeaderCellDef>PnL</th>
-    <td mat-cell *matCellDef="let element">${{ element.pnl | price }} - {{ element.pnlPercent | price }}%</td>
-  </ng-container>
+    <!-- PnL -->
+    <ng-container matColumnDef="pnl">
+      <th mat-header-cell *matHeaderCellDef>PnL</th>
+      <td mat-cell *matCellDef="let element" @fadeInOut>
+        ${{ element.pnl | price }} - {{ element.pnlPercent | price }}%
+      </td>
+    </ng-container>
 
-  <!-- All time PnL -->
-  <ng-container matColumnDef="fixedPnl">
-    <th mat-header-cell *matHeaderCellDef>Fixed PnL</th>
-    <td mat-cell *matCellDef="let element">${{ element.allTimePnl | price }}</td>
-  </ng-container>
+    <!-- All time PnL -->
+    <ng-container matColumnDef="fixedPnl">
+      <th mat-header-cell *matHeaderCellDef>Fixed PnL</th>
+      <td mat-cell *matCellDef="let element">
+        ${{ element.allTimePnl | price }}
+      </td>
+    </ng-container>
 
-  <!-- Total PnL -->
-  <ng-container matColumnDef="totalPnl">
-    <th mat-header-cell *matHeaderCellDef>Total PnL</th>
-    <td mat-cell *matCellDef="let element">${{ element.totalPnl | price }}</td>
-  </ng-container>
+    <!-- Total PnL -->
+    <ng-container matColumnDef="totalPnl">
+      <th mat-header-cell *matHeaderCellDef>Total PnL</th>
+      <td mat-cell *matCellDef="let element" @fadeInOut>
+        ${{ element.totalPnl | price }}
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+} @else {
+  <mat-spinner></mat-spinner>
+}

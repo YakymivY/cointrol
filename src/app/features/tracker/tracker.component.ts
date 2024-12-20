@@ -5,7 +5,7 @@ import { PortfolioListComponent } from './components/portfolio-list/portfolio-li
 @Component({
   selector: 'app-tracker',
   standalone: true,
-  imports: [RouterOutlet, PortfolioListComponent],
+  imports: [PortfolioListComponent],
   templateUrl: './tracker.component.html',
   styleUrl: './tracker.component.css',
 })

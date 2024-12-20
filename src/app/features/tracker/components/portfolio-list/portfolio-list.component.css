@@ -13,3 +13,50 @@
   align-items: center;
   padding: 0 16px;
 }
+
+::ng-deep .mat-mdc-table {
+ --mat-table-background-color: black;
+ --mat-table-header-headline-font: 'Questrial';
+ --mat-table-row-item-label-text-font: 'Questrial';
+ cursor: pointer;
+}
+
+.mat-mdc-table tr.mat-mdc-row:hover {
+  background-color: rgb(29, 29, 29);
+}
+
+::ng-deep .mat-mdc-header-row {
+  --mat-table-row-item-outline-color: var(--primary-color);
+  --mat-table-row-item-outline-width: 2px;
+}
+
+.asset-name {
+  text-decoration: underline;
+  text-decoration-color: var(--primary-color);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+  transition: 0.2s;
+}
+
+.asset-name-col:hover .asset-name {
+  text-decoration-color: var(--secondary-color);
+}
+
+.change-negative {
+  color: var(--red-color);
+}
+
+.change-positive {
+  color: var(--green-color)
+}
+
+.pnl__percentage {
+  font-size: 12px;
+}
+
+::ng-deep .custom-tooltip {
+  --mdc-plain-tooltip-container-color: black;
+  --mdc-plain-tooltip-supporting-text-color: white;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+}

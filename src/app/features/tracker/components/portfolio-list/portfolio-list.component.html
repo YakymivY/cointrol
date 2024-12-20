@@ -1,15 +1,20 @@
+<h1>Assets</h1>
 @if (dataSource) {
   <table mat-table [dataSource]="dataSource">
     <!-- Asset column -->
     <ng-container matColumnDef="asset">
       <th mat-header-cell *matHeaderCellDef>Asset</th>
-      <td mat-cell *matCellDef="let element">{{ element.asset }}</td>
+      <td mat-cell *matCellDef="let element" class="asset-name-col">
+        <span class="asset-name">{{ element.asset }}</span>
+      </td>
     </ng-container>
 
     <!-- Price column -->
     <ng-container matColumnDef="price">
       <th mat-header-cell *matHeaderCellDef>Price</th>
-      <td mat-cell *matCellDef="let element" @fadeInOut>${{ element.price | price }}</td>
+      <td mat-cell *matCellDef="let element" @fadeInOut>
+        ${{ element.price | price }}
+      </td>
     </ng-container>
 
     <!-- 1h change -->
@@ -22,10 +27,14 @@
         (mouseover)="change1hOnMouseOver(element)"
         (mouseleave)="change1hOnMouseLeave(element)"
         (focus)="change1hOnFocus()"
+        [ngClass]="{
+          'change-negative': element.historicalData['1h'].change < 0,
+          'change-positive': element.historicalData['1h'].change >= 0,
+        }"
       >
         @if (showExtra1h !== element.asset) {
           <div class="portfolio__extra" @fadeInOut>
-            {{ element.historicalData["1h"].change }}%
+            @if (element.historicalData["1h"].change >=  0) {↑} @else {↓}{{ Math.abs(element.historicalData["1h"].change) }}%
           </div>
         } @else {
           <div class="portfolio__extra" @fadeInOut>
@@ -45,10 +54,14 @@
         (mouseover)="change24hOnMouseOver(element)"
         (mouseleave)="change24hOnMouseLeave(element)"
         (focus)="change24hOnFocus()"
+        [ngClass]="{
+          'change-negative': element.historicalData['1d'].change < 0,
+          'change-positive': element.historicalData['1d'].change >= 0,
+        }"
       >
         @if (showExtra24h !== element.asset) {
           <div class="portfolio__extra" @fadeInOut>
-            {{ element.historicalData["1d"].change }}%
+            @if (element.historicalData["1d"].change >= 0) {↑} @else {↓}{{ Math.abs(element.historicalData["1d"].change) }}%
           </div>
         } @else {
           <div class="portfolio__extra" @fadeInOut>
@@ -68,10 +81,14 @@
         (mouseover)="change7dOnMouseOver(element)"
         (mouseleave)="change7dOnMouseLeave(element)"
         (focus)="change7dOnFocus()"
+        [ngClass]="{
+          'change-negative': element.historicalData['7d'].change < 0,
+          'change-positive': element.historicalData['7d'].change >= 0,
+        }"
       >
         @if (showExtra7d !== element.asset) {
           <div class="portfolio__extra" @fadeInOut>
-            {{ element.historicalData["7d"].change }}%
+            @if (element.historicalData["7d"].change >= 0) {↑} @else {↓}{{ Math.abs(element.historicalData["7d"].change) }}%
           </div>
         } @else {
           <div class="portfolio__extra" @fadeInOut>
@@ -98,7 +115,7 @@
           </div>
         } @else {
           <div class="portfolio__extra" @fadeInOut>
-            ${{ element.totalSpent | price }}
+            <span matTooltip="Value" matTooltipShowDelay="500" matTooltipClass="custom-tooltip" matTooltipPosition="right">${{ element.total | price }}</span>
           </div>
         }
       </td>
@@ -107,14 +124,40 @@
     <!-- Average price -->
     <ng-container matColumnDef="avg">
       <th mat-header-cell *matHeaderCellDef>Average price</th>
-      <td mat-cell *matCellDef="let element">${{ element.average | price }}</td>
+      <td
+        class="portfolio__cell"
+        mat-cell
+        *matCellDef="let element"
+        (mouseover)="averageOnMouseOver(element)"
+        (mouseleave)="averageOnMouseLeave(element)"
+        (focus)="averageOnFocus()"
+      >
+        @if (showExtraAverage !== element.asset) {
+          <div class="portfolio__extra" @fadeInOut>
+            ${{ element.average | price }}
+          </div>
+        } @else {
+          <div class="portfolio__extra" @fadeInOut>
+            <span matTooltip="Spent" matTooltipShowDelay="500" matTooltipClass="custom-tooltip" matTooltipPosition="right">${{ element.totalSpent | price }}</span>
+          </div>
+        }
+      </td>
     </ng-container>
 
     <!-- PnL -->
     <ng-container matColumnDef="pnl">
-      <th mat-header-cell *matHeaderCellDef>PnL</th>
-      <td mat-cell *matCellDef="let element" @fadeInOut>
-        ${{ element.pnl | price }} - {{ element.pnlPercent | price }}%
+      <th mat-header-cell *matHeaderCellDef>Current PnL</th>
+      <td 
+        mat-cell 
+        *matCellDef="let element" 
+        @fadeInOut 
+        [ngClass]="{
+          'change-negative': element.pnl < 0,
+          'change-positive': element.pnl >= 0,
+        }"
+      >
+        <p class="pnl__value">@if(element.pnl >= 0) {+$} @else {-$}{{ Math.abs(element.pnl) | number: '1.2-2' }}</p>
+        <p class="pnl__percentage">@if(element.pnlPercent >= 0) {↑} @else {↓}{{ Math.abs(element.pnlPercent) | number: '1.2-2' }}%</p>
       </td>
     </ng-container>
 
@@ -122,7 +165,7 @@
     <ng-container matColumnDef="fixedPnl">
       <th mat-header-cell *matHeaderCellDef>Fixed PnL</th>
       <td mat-cell *matCellDef="let element">
-        ${{ element.allTimePnl | price }}
+        ${{ element.allTimePnl | number: '1.2-2' }}
       </td>
     </ng-container>
 
@@ -130,7 +173,7 @@
     <ng-container matColumnDef="totalPnl">
       <th mat-header-cell *matHeaderCellDef>Total PnL</th>
       <td mat-cell *matCellDef="let element" @fadeInOut>
-        ${{ element.totalPnl | price }}
+        @if(element.pnl >= 0) {+$} @else {-$}{{ Math.abs(element.totalPnl) | number: '1.2-2' }}
       </td>
     </ng-container>
 

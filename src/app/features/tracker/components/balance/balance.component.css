@@ -13,6 +13,30 @@
   --mat-filled-button-horizontal-padding: 10px;
 }
 
+.operation-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.operation-dialog-container {
+  padding: 20px;
+}
+
+.operation-button {
+  width: 20px;
+  aspect-ratio: 1/1;
+  background-color: transparent;
+  color: white;
+  border: 2px solid var(--primary-color);
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.operation-button:hover {
+  background-color: var(--primary-color);
+}
+
 .balance__record {
   margin-left: 20px;
 }

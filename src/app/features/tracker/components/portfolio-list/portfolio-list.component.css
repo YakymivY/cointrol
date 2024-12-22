@@ -22,7 +22,7 @@
 }
 
 .mat-mdc-table tr.mat-mdc-row:hover {
-  background-color: rgb(29, 29, 29);
+  background-color: var(--primary-grey);
 }
 
 ::ng-deep .mat-mdc-header-row {

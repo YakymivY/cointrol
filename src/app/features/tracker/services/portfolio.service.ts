@@ -14,4 +14,12 @@ export class PortfolioService {
   getBalance(): Observable<BalanceResponse> {
     return this.http.get<BalanceResponse>(`${environment.API_BASE_URL}portfolio/balance`);
   }
+
+  makeDeposit(amount: number): Observable<Object> {
+    return this.http.post(`${environment.API_BASE_URL}portfolio/deposit`, { amount });
+  }
+
+  makeWithdraw(amount: number): Observable<Object> {
+  return this.http.post(`${environment.API_BASE_URL}portfolio/withdraw`, { amount });
+  }
 }

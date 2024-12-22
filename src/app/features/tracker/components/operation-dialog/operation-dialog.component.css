@@ -1,0 +1,29 @@
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+::ng-deep html {
+  --mdc-dialog-container-color: var(--primary-grey);
+}
+
+.operations-dialog-container {
+  padding: 20px;
+}
+
+.operations-field {
+  margin: 15px 0;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-text-field__input {
+  height: 24px;
+}
+
+.operations-submit-button {
+  margin-left: 10px;
+}
+
+.operations-cancel-button {
+  color: var(--red-color);
+}

@@ -1,0 +1,74 @@
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+::ng-deep html {
+  --mdc-dialog-container-color: var(--primary-grey);
+  --mat-autocomplete-background-color: var(--primary-grey);
+
+  --mat-standard-button-toggle-height: 24px;
+  --mat-standard-button-toggle-shape: 12px;
+  --mat-standard-button-toggle-background-color: transparent;
+
+  --mdc-protected-button-container-color: var(--primary-color);
+}
+
+.new-transaction-dialog-container {
+  padding: 20px;
+  min-width: 500px; 
+}
+
+.new-transaction-field {
+  width: 100%;
+  margin: 15px 0;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-text-field__input {
+  height: 24px;
+}
+
+::ng-deep .mat-button-toggle-group {
+  width: 100%;
+}
+
+::ng-deep .mat-button-toggle {
+  width: 50%;
+}
+
+::ng-deep .mat-button-toggle-checked.buy-toggle {
+  --mat-standard-button-toggle-selected-state-background-color: var(--green-color);
+}
+
+::ng-deep .mat-button-toggle-checked.sell-toggle {
+  --mat-standard-button-toggle-selected-state-background-color: var(--red-color);
+}
+
+::ng-deep.mat-pseudo-checkbox.mat-mdc-option-pseudo-checkbox.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-minimal.ng-star-inserted {
+  display: none;
+}
+
+.column-fields-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 30px 0 0 0;
+  gap: 10px;
+}
+
+.column-fields-container mat-form-field {
+  flex: 1;
+}
+
+.buttons-container {
+  margin-top: 15px;
+}
+
+.transaction-submit-button {
+  margin-left: 10px;
+}
+
+.transaction-cancel-button {
+  color: var(--red-color);
+}

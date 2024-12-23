@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BalanceResponse } from '../interfaces/balance-response.interface';
 import { environment } from '../../../../environments/environment';
+import { TransactionRequest } from '../interfaces/transaction-request.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class PortfolioService {
   }
 
   makeWithdraw(amount: number): Observable<Object> {
-  return this.http.post(`${environment.API_BASE_URL}portfolio/withdraw`, { amount });
+    return this.http.post(`${environment.API_BASE_URL}portfolio/withdraw`, { amount });
+  }
+
+  addTransaction(data: TransactionRequest): Observable<Object> {
+    return this.http.post(`${environment.API_BASE_URL}transactions/new`, data);
   }
 }

@@ -5,6 +5,8 @@ import { PortfolioService } from '../../services/portfolio.service';
 import { BalanceResponse } from '../../interfaces/balance-response.interface';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { OperationDialogComponent } from '../operation-dialog/operation-dialog.component';
+import { NewTransactionDialogComponent } from '../new-transaction-dialog/new-transaction-dialog.component';
+import { fadeAnimation } from '../../animations/portfolio.animations';
 
 @Component({
   selector: 'app-balance',
@@ -12,6 +14,7 @@ import { OperationDialogComponent } from '../operation-dialog/operation-dialog.c
   imports: [DecimalPipe, MatButtonModule, MatDialogModule],
   templateUrl: './balance.component.html',
   styleUrl: './balance.component.css',
+  animations: [fadeAnimation],
 })
 export class BalanceComponent implements OnInit {
   balance: BalanceResponse | null = null;
@@ -20,10 +23,11 @@ export class BalanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateBalance();
+    const dialogRef = this.dialog.open(NewTransactionDialogComponent, { autoFocus: false });
   }
 
   openOperationDialog(action: string): void {
-    const dialogRef = this.dialog.open(OperationDialogComponent, { data: { action }, panelClass: 'operation-dialog-container'});
+    const dialogRef = this.dialog.open(OperationDialogComponent, { data: { action }, autoFocus: false});
     
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -54,6 +58,10 @@ export class BalanceComponent implements OnInit {
         }
       }
     });
+  }
+
+  openNewTransactionDialog(): void {
+    const dialogRef = this.dialog.open(NewTransactionDialogComponent, { autoFocus: false });
   }
 
   updateBalance(): void {

@@ -1,6 +1,14 @@
 <form [formGroup]="newTransactionForm" (ngSubmit)="onSubmit()" class="new-transaction-dialog-container">
   <h1 mat-dialog-title>Add transaction</h1>
   <div mat-dialog-content>
+    <mat-button-toggle-group class="new-transaction-field" name="operationType" aria-label="Operation Type" formControlName="type">
+      <mat-button-toggle class="buy-toggle" value="buy">Buy</mat-button-toggle>
+      <mat-button-toggle class="sell-toggle" value="sell">Sell</mat-button-toggle>
+    </mat-button-toggle-group>
+    @if (typeField?.hasError('required') && typeField?.touched) {
+      <mat-error>Choose either buy or sell optioin.</mat-error>
+    }
+
     <mat-form-field class="new-transaction-field" appearance="outline">
       <mat-label>Asset</mat-label>
       <mat-autocomplete #auto="matAutocomplete">
@@ -10,18 +18,12 @@
       </mat-autocomplete>
       <input type="text" placeholder="Pick one" aria-label="Number" matInput formControlName="asset" [matAutocomplete]="auto" (click)="resetInput()">
       @if (assetField?.hasError('required')) {
-        <mat-error>Choose the asset to proceed...</mat-error>
+        <mat-error>Choose an asset to proceed...</mat-error>
       } @else if (assetField?.hasError('notExists')) {
         <mat-error>There is no such token :(</mat-error>
       }
     </mat-form-field>
-    <mat-button-toggle-group name="operationType" aria-label="Operation Type" formControlName="type">
-      <mat-button-toggle class="buy-toggle" value="buy">Buy</mat-button-toggle>
-      <mat-button-toggle class="sell-toggle" value="sell">Sell</mat-button-toggle>
-    </mat-button-toggle-group>
-    @if (typeField?.hasError('required')) {
-      <mat-error>Choose either buy or sell optioin.</mat-error>
-    }
+
     <div class="column-fields-container">
       <mat-form-field appearance="outline">
         <mat-label>Quantity</mat-label>
@@ -32,21 +34,35 @@
         <input matInput type="number" formControlName="price">
       </mat-form-field>
     </div>
-    @if (amountField?.hasError('required')) {
+
+    @if (amountField?.hasError('required') && amountField?.touched) {
       <mat-error>Fill in the Quantity of tokens in tx.</mat-error>
-    } @else if (amountField?.hasError('notPositive')) {
+    } @else if (amountField?.hasError('notPositive') && amountField?.touched) {
       <mat-error>Yo, amount can't be negative.</mat-error>
-    } @else if (priceField?.hasError('required')) {
+    } @else if (priceField?.hasError('required') && priceField?.touched) {
       <mat-error>Choose the price of one token.</mat-error>
-    } @else if (priceField?.hasError('notPositive')) {
+    } @else if (priceField?.hasError('notPositive') && priceField?.touched) {
       <mat-error>You put negative price ???</mat-error>
     }
     @if (errorMessage) {
       <mat-error>{{ errorMessage }}</mat-error>
     }
+
+    <mat-form-field class="new-transaction-field" appearance="outline">
+      <mat-label>Storage (Optional)</mat-label>
+      <mat-autocomplete #storageAuto="matAutocomplete">
+        @for (storage of (filteredStorages | async); track storage) {
+          <mat-option [value]="storage">{{storage}}</mat-option>
+        }
+      </mat-autocomplete>
+      <input type="text" placeholder="Pick one" aria-label="Number" matInput formControlName="storage" [matAutocomplete]="storageAuto" (click)="resetStorageInput()">
+      @if (storageField?.hasError('notExists')) {
+        <mat-error>There is no such storage :(</mat-error>
+      }
+    </mat-form-field>
   </div>
   <div mat-dialog-actions class="button-container">
     <button mat-button class="transaction-cancel-button" (click)="close()">Cancel</button>
-    <button type="submit" mat-raised-button class="transaction-submit-button" [disabled]="newTransactionForm.invalid">Submit</button>
-    </div>
+    <button type="submit" mat-raised-button class="transaction-submit-button" [disabled]="newTransactionForm.invalid">{{ isSubmitting ? 'Hold on...' : 'Submit' }}</button>
+  </div>
 </form>

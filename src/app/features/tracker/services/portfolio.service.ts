@@ -27,4 +27,8 @@ export class PortfolioService {
   addTransaction(data: TransactionRequest): Observable<Object> {
     return this.http.post(`${environment.API_BASE_URL}transactions/new`, data);
   }
+
+  getListOfStorages(): Observable<any> {
+    return this.http.get(`${environment.API_BASE_URL}transactions/storages`);
+  }
 }

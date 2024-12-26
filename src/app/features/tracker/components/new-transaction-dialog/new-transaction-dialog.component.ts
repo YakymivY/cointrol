@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {
@@ -23,6 +28,7 @@ import { assetExistsValidator } from '../../validators/asset-exists.validator';
 import { TransactionRequest } from '../../interfaces/transaction-request.interface';
 import { PortfolioService } from '../../services/portfolio.service';
 import { positiveNumberValidator } from '../../validators/positive-number.validator';
+import { storageExistsValidator } from '../../validators/storage-exists.validator';
 
 @Component({
   selector: 'app-new-transaction-dialog',
@@ -33,7 +39,7 @@ import { positiveNumberValidator } from '../../validators/positive-number.valida
     MatAutocompleteModule,
     AsyncPipe,
     MatButtonToggleModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   templateUrl: './new-transaction-dialog.component.html',
   styleUrl: './new-transaction-dialog.component.css',
@@ -143,10 +149,16 @@ export class NewTransactionDialogComponent implements OnInit {
     'CORE',
     'NEO',
   ];
+  storages: Observable<string[]> | undefined;
+  filteredStorages: Observable<string[]> | undefined;
   isSubmitting: boolean = false;
   errorMessage: string | null = null;
 
-  assetField; typeField; amountField; priceField;
+  assetField;
+  typeField;
+  amountField;
+  priceField;
+  storageField;
 
   constructor(
     private fb: FormBuilder,
@@ -159,23 +171,34 @@ export class NewTransactionDialogComponent implements OnInit {
       type: ['', [Validators.required]],
       amount: ['', [Validators.required, positiveNumberValidator()]],
       price: ['', [Validators.required, positiveNumberValidator()]],
+      storage: ['', [], [storageExistsValidator(http)]],
     });
 
     this.assetField = this.newTransactionForm.get('asset');
     this.typeField = this.newTransactionForm.get('type');
     this.amountField = this.newTransactionForm.get('amount');
     this.priceField = this.newTransactionForm.get('price');
+    this.storageField = this.newTransactionForm.get('storage');
   }
 
   ngOnInit(): void {
-    this.filteredOptions = this.newTransactionForm
-      .get('asset')
-      ?.valueChanges.pipe(
-        startWith(''),
-        debounceTime(300), //set delay
-        distinctUntilChanged(), //trigger only if value changes
-        switchMap((value) => this._filterAndFetch(value || '')),
-      );
+    this.storages = this.portfolioService.getListOfStorages();
+
+    //form list of assets for autocomplete
+    this.filteredOptions = this.assetField?.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300), //set delay
+      distinctUntilChanged(), //trigger only if value changes
+      switchMap((value) => this._filterAndFetch(value || '')),
+    );
+
+    //form list of storages for autocomplete
+    this.filteredStorages = this.storageField?.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((value) => this._filterStorages(value || '')),
+    );
   }
 
   private _filterAndFetch(value: string): Observable<string[]> {
@@ -188,13 +211,36 @@ export class NewTransactionDialogComponent implements OnInit {
 
     if (localMatches.length > 0) {
       return of(localMatches);
-    } 
+    }
 
     //fetch from server
-    return this.http.get<string[]>(`${environment.API_BASE_URL}integrations/assets-list?ticker=${value}`).pipe(
-      catchError(() => {
-        return of([]);
-      })
+    return this.http
+      .get<
+        string[]
+      >(`${environment.API_BASE_URL}integrations/assets-list?ticker=${value}`)
+      .pipe(
+        catchError(() => {
+          return of([]);
+        }),
+      );
+  }
+
+  private _filterStorages(value: string): Observable<string[]> {
+    const filterValue = value.toLowerCase();
+
+    //ensure `this.storages` is defined before filtering
+    if (!this.storages) {
+      return new Observable((observer) => {
+        observer.next([]); //return an empty array when storages is undefined
+        observer.complete();
+      });
+    }
+
+    //apply filtering logic
+    return this.storages.pipe(
+      map((items) =>
+        items.filter((item) => item.toLowerCase().includes(filterValue)),
+      ),
     );
   }
 
@@ -204,7 +250,8 @@ export class NewTransactionDialogComponent implements OnInit {
       //get amount from input
       const amount: number = this.newTransactionForm.get('amount')?.value;
       //convert it to neg if it's sell tx
-      const signedAmount: number = this.newTransactionForm.get('type')?.value == 'sell' ? -amount : amount;
+      const signedAmount: number =
+        this.newTransactionForm.get('type')?.value == 'sell' ? -amount : amount;
       //TODO add storage
       const formData: TransactionRequest = {
         asset: this.newTransactionForm.get('asset')?.value,
@@ -222,13 +269,17 @@ export class NewTransactionDialogComponent implements OnInit {
         error: (error: Error) => {
           this.isSubmitting = false;
           this.errorMessage = error.message;
-        }
-      })
+        },
+      });
     }
   }
 
   resetInput() {
-    this.newTransactionForm.get('asset')?.setValue('');
+    this.assetField?.setValue('');
+  }
+
+  resetStorageInput() {
+    this.storageField?.setValue('');
   }
 
   close() {

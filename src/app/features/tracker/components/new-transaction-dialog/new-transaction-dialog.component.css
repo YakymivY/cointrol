@@ -53,7 +53,7 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 30px 0 0 0;
+  margin: 20px 0 0 0;
   gap: 10px;
 }
 
@@ -61,7 +61,7 @@ input[type="number"]::-webkit-outer-spin-button {
   flex: 1;
 }
 
-.buttons-container {
+.button-container {
   margin-top: 15px;
 }
 

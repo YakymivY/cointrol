@@ -2,23 +2,26 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'price',
-  standalone: true
+  standalone: true,
 })
 export class PricePipe implements PipeTransform {
-
-  transform(value: number, ...args: unknown[]): unknown {
-    let digitsAfterComa: number;
-    if (this.digitsBeforeDecimal(value) >= 2) {
-      digitsAfterComa = 2;
-    } else if (this.countLeadingZeros(value) < 3 && Math.abs(value) < 0.1) {
-      digitsAfterComa = 6;
-    } else if (this.countLeadingZeros(value) >= 3 && Math.abs(value) < 0.1) {
-      digitsAfterComa = 8;
+  transform(value: number | null, ...args: unknown[]): unknown {
+    if (value) {
+      let digitsAfterComa: number;
+      if (this.digitsBeforeDecimal(value) >= 2) {
+        digitsAfterComa = 2;
+      } else if (this.countLeadingZeros(value) < 3 && Math.abs(value) < 0.1) {
+        digitsAfterComa = 6;
+      } else if (this.countLeadingZeros(value) >= 3 && Math.abs(value) < 0.1) {
+        digitsAfterComa = 8;
+      } else {
+        digitsAfterComa = 4;
+      }
+      const rounded: number = Number(value.toFixed(digitsAfterComa));
+      return rounded;
     } else {
-      digitsAfterComa = 4;
+      return null;
     }
-    const rounded: number = Number(value.toFixed(digitsAfterComa));
-    return rounded;
   }
 
   digitsBeforeDecimal(value: number): number {
@@ -46,5 +49,4 @@ export class PricePipe implements PipeTransform {
 
     return count;
   }
-
 }

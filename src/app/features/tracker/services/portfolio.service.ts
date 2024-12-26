@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { BalanceResponse } from '../interfaces/balance-response.interface';
 import { environment } from '../../../../environments/environment';
 import { TransactionRequest } from '../interfaces/transaction-request.interface';
@@ -30,5 +30,16 @@ export class PortfolioService {
 
   getListOfStorages(): Observable<any> {
     return this.http.get(`${environment.API_BASE_URL}transactions/storages`);
+  }
+
+  getUserAssets(): Observable<any> {
+    return this.http.get(`${environment.API_BASE_URL}portfolio/assets`);
+  }
+
+  fetchExrate(asset: string): Observable<number> {
+    const headers = new HttpHeaders().set('X-CoinAPI-Key', environment.COINAPI_KEY);
+    return this.http.get<any>(`${environment.COINAPI_URL}/exchangerate/${asset}/USDT`, { headers }).pipe(
+      map(data => data.rate)
+    );
   }
 }

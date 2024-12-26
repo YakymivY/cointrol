@@ -29,6 +29,9 @@ import { TransactionRequest } from '../../interfaces/transaction-request.interfa
 import { PortfolioService } from '../../services/portfolio.service';
 import { positiveNumberValidator } from '../../validators/positive-number.validator';
 import { storageExistsValidator } from '../../validators/storage-exists.validator';
+import { TransactionType } from '../../enums/transaction-type.enum';
+import { OwnedAsset } from '../../interfaces/owned-asset.interface';
+import { PricePipe } from '../../pipes/price.pipe';
 
 @Component({
   selector: 'app-new-transaction-dialog',
@@ -40,6 +43,7 @@ import { storageExistsValidator } from '../../validators/storage-exists.validato
     AsyncPipe,
     MatButtonToggleModule,
     MatButtonModule,
+    PricePipe
   ],
   templateUrl: './new-transaction-dialog.component.html',
   styleUrl: './new-transaction-dialog.component.css',
@@ -47,7 +51,7 @@ import { storageExistsValidator } from '../../validators/storage-exists.validato
 export class NewTransactionDialogComponent implements OnInit {
   newTransactionForm: FormGroup;
   filteredOptions: Observable<string[]> | undefined;
-  options: string[] = [
+  avaliableAssets: string[] = [
     'BTC',
     'ETH',
     'USDT',
@@ -149,6 +153,11 @@ export class NewTransactionDialogComponent implements OnInit {
     'CORE',
     'NEO',
   ];
+  assetsUsed: string[] = this.avaliableAssets;
+  transactionType: TransactionType | null = null;
+  ownedAssets: OwnedAsset[] = [];
+  assetMax: number | null = null;
+  currentExrate$: Observable<number> | null = null;
   storages: Observable<string[]> | undefined;
   filteredStorages: Observable<string[]> | undefined;
   isSubmitting: boolean = false;
@@ -199,13 +208,57 @@ export class NewTransactionDialogComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((value) => this._filterStorages(value || '')),
     );
+
+    //track user type choice
+    this.typeField?.valueChanges.subscribe((value) => {
+      //set transaction type variable
+      this.transactionType = value;
+
+      //fetch user assets if there are none already
+      if (this.transactionType === 'sell' && this.ownedAssets.length === 0) {
+        this.portfolioService.getUserAssets().subscribe({
+          next: (response: OwnedAsset[]) => {
+            this.ownedAssets = response;
+            this.updateAssetList();
+          },
+          error: (error: Error) => {
+            console.error('An error occured while fetching user assets:', error.message);
+          }
+        });
+      } else {
+        this.updateAssetList();
+      }
+    })
+
+    //track change of asset field
+    this.assetField?.valueChanges.subscribe((value) => {
+      const hasValue$: Observable<boolean> | undefined = this.filteredOptions?.pipe(map((array) => array.includes(value)));
+      hasValue$?.subscribe(hasValue => {
+        if (hasValue) {
+          this.currentExrate$ = this.portfolioService.fetchExrate(value);
+        }
+      })
+    }) 
+  }
+
+  private updateAssetList() {
+    //change asset list shown
+    if (this.transactionType === 'sell') {
+      this.assetsUsed = this.ownedAssets.map(item => item.asset);
+      if (!this.ownedAssets.map(item => item.asset).includes(this.assetField?.value)) {
+        this.assetField?.setValue('');
+        this.priceField?.setValue('');
+      }
+    } else {
+      this.assetsUsed = this.avaliableAssets;
+    }
   }
 
   private _filterAndFetch(value: string): Observable<string[]> {
     const filterValue = value.toLowerCase();
 
     //find in hardcoded values
-    const localMatches = this.options.filter((option) =>
+    const localMatches = this.assetsUsed.filter((option) =>
       option.toLowerCase().includes(filterValue),
     );
 
@@ -244,6 +297,14 @@ export class NewTransactionDialogComponent implements OnInit {
     );
   }
 
+  setMaxAmount() {
+    const chosenAsset: string = this.assetField?.value;
+    if (this.ownedAssets.map(item => item.asset).includes(chosenAsset)) {
+      const assetObj: OwnedAsset[] = this.ownedAssets.filter(item => item.asset === chosenAsset);
+      this.amountField?.setValue(assetObj[0].amount);
+    }
+  }
+
   onSubmit() {
     if (this.newTransactionForm.valid) {
       this.isSubmitting = true;
@@ -254,9 +315,10 @@ export class NewTransactionDialogComponent implements OnInit {
         this.newTransactionForm.get('type')?.value == 'sell' ? -amount : amount;
       //TODO add storage
       const formData: TransactionRequest = {
-        asset: this.newTransactionForm.get('asset')?.value,
+        asset: this.assetField?.value,
         amount: signedAmount,
-        price: this.newTransactionForm.get('price')?.value,
+        price: this.priceField?.value,
+        storage: this.storageField?.value,
       };
 
       //create save request

@@ -45,3 +45,7 @@ a {
 a:hover {
   color: var(--primary-color);
 }
+
+.accented {
+  color: var(--secondary-color);
+}

@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,10 +22,12 @@ import {
   Observable,
   of,
   startWith,
+  Subject,
   switchMap,
+  takeUntil,
   tap,
 } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { environment } from '../../../../../environments/environment';
@@ -43,12 +52,13 @@ import { PricePipe } from '../../pipes/price.pipe';
     AsyncPipe,
     MatButtonToggleModule,
     MatButtonModule,
-    PricePipe
+    PricePipe,
+    DecimalPipe,
   ],
   templateUrl: './new-transaction-dialog.component.html',
   styleUrl: './new-transaction-dialog.component.css',
 })
-export class NewTransactionDialogComponent implements OnInit {
+export class NewTransactionDialogComponent implements OnInit, OnDestroy {
   newTransactionForm: FormGroup;
   filteredOptions: Observable<string[]> | undefined;
   avaliableAssets: string[] = [
@@ -157,11 +167,21 @@ export class NewTransactionDialogComponent implements OnInit {
   transactionType: TransactionType | null = null;
   ownedAssets: OwnedAsset[] = [];
   assetMax: number | null = null;
-  currentExrate$: Observable<number> | null = null;
+  //currentExrate$: Observable<number> | null = null;
+
+  private amount = signal<number>(0);
+  private price = signal<number>(0);
+  //computed total with additional formatting
+  total = computed(() => {
+    const calculatedTotal = this.amount() * this.price();
+    return isNaN(calculatedTotal) ? 0 : calculatedTotal;
+  });
+
   storages: Observable<string[]> | undefined;
   filteredStorages: Observable<string[]> | undefined;
   isSubmitting: boolean = false;
   errorMessage: string | null = null;
+  private destroy$ = new Subject<void>();
 
   assetField;
   typeField;
@@ -188,6 +208,21 @@ export class NewTransactionDialogComponent implements OnInit {
     this.amountField = this.newTransactionForm.get('amount');
     this.priceField = this.newTransactionForm.get('price');
     this.storageField = this.newTransactionForm.get('storage');
+
+    effect(() => {
+      //update signals when form inputs change
+      this.amountField?.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((value) => {
+          this.amount.set(Number(value) || 0);
+        });
+
+      this.priceField?.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((value) => {
+          this.price.set(Number(value) || 0);
+        });
+    });
   }
 
   ngOnInit(): void {
@@ -222,32 +257,47 @@ export class NewTransactionDialogComponent implements OnInit {
             this.updateAssetList();
           },
           error: (error: Error) => {
-            console.error('An error occured while fetching user assets:', error.message);
-          }
+            console.error(
+              'An error occured while fetching user assets:',
+              error.message,
+            );
+          },
         });
       } else {
         this.updateAssetList();
       }
-    })
+    });
 
     //track change of asset field
     this.assetField?.valueChanges.subscribe((value) => {
-      const hasValue$: Observable<boolean> | undefined = this.filteredOptions?.pipe(map((array) => array.includes(value)));
-      hasValue$?.subscribe(hasValue => {
+      const hasValue$: Observable<boolean> | undefined =
+        this.filteredOptions?.pipe(map((array) => array.includes(value)));
+      hasValue$?.subscribe((hasValue) => {
         if (hasValue) {
-          this.currentExrate$ = this.portfolioService.fetchExrate(value);
+          this.portfolioService
+            .fetchExrate(value)
+            ?.pipe(takeUntil(this.destroy$))
+            .subscribe((price) => {
+              this.price.set(price);
+              this.priceField?.setValue(price, { emitEvent: false });
+            });
         }
-      })
-    }) 
+      });
+    });
   }
 
   private updateAssetList() {
     //change asset list shown
     if (this.transactionType === 'sell') {
-      this.assetsUsed = this.ownedAssets.map(item => item.asset);
-      if (!this.ownedAssets.map(item => item.asset).includes(this.assetField?.value)) {
+      this.assetsUsed = this.ownedAssets.map((item) => item.asset);
+      if (
+        !this.ownedAssets
+          .map((item) => item.asset)
+          .includes(this.assetField?.value)
+      ) {
         this.assetField?.setValue('');
         this.priceField?.setValue('');
+        this.amountField?.setValue('');
       }
     } else {
       this.assetsUsed = this.avaliableAssets;
@@ -299,8 +349,10 @@ export class NewTransactionDialogComponent implements OnInit {
 
   setMaxAmount() {
     const chosenAsset: string = this.assetField?.value;
-    if (this.ownedAssets.map(item => item.asset).includes(chosenAsset)) {
-      const assetObj: OwnedAsset[] = this.ownedAssets.filter(item => item.asset === chosenAsset);
+    if (this.ownedAssets.map((item) => item.asset).includes(chosenAsset)) {
+      const assetObj: OwnedAsset[] = this.ownedAssets.filter(
+        (item) => item.asset === chosenAsset,
+      );
       this.amountField?.setValue(assetObj[0].amount);
     }
   }
@@ -366,5 +418,10 @@ export class NewTransactionDialogComponent implements OnInit {
           console.error(error);
         },
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

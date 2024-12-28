@@ -23,7 +23,6 @@ export class BalanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateBalance();
-    const dialogRef = this.dialog.open(NewTransactionDialogComponent, { autoFocus: false });
   }
 
   openOperationDialog(action: string): void {

@@ -7,6 +7,7 @@ import { PricePipe } from '../../pipes/price.pipe';
 import { PortfolioData } from '../../interfaces/portfolio-data.interface';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PortfolioService } from '../../services/portfolio.service';
 
 @Component({
   selector: 'app-portfolio-list',
@@ -38,135 +39,144 @@ export class PortfolioListComponent implements OnInit {
   showExtraAverage: string = '';
   portfolioData: PortfolioData | null = {
     "userId": "43f69fcb-6c08-4f70-8e54-0027c9ef335f",
-    "currentPnl": 186.55728656153198,
+    "portfolioValue": 1043.8885338528557,
+    "currentPnl": {
+        "value": 298.4867338528558,
+        "change": 40.043736660262404
+    },
+    "fixedPnl": 5.6968,
+    "totalPnl": 304.1835338528558,
+    "invested": 745.4018,
+    "bestPerformer": 0,
+    "worstPerformer": 2,
     "assets": [
         {
             "asset": "BNB",
-            "amount": 1,
-            "price": 649.0594029824581,
-            "total": 649.0594029824581,
+            "amount": 0.98,
+            "price": 729.3543795309347,
+            "total": 714.767291940316,
             "average": 451.66,
-            "totalSpent": 451.66,
-            "pnl": 197.39940298245807,
-            "pnlPercent": 43.70530996379092,
-            "allTimePnl": 0,
-            "totalPnl": 197.39940298245807,
+            "totalSpent": 442.6268,
+            "pnl": 272.140491940316,
+            "pnlPercent": 61.48305794866374,
+            "allTimePnl": 3.6668,
+            "totalPnl": 275.807291940316,
             "historicalData": {
                 "1h": {
-                    "price": 647.8288718258389,
-                    "change": 0.19
+                    "price": 725.781308714107,
+                    "change": 0.49
                 },
                 "1d": {
-                    "price": 701.2304654360597,
-                    "change": -7.44
+                    "price": 693.9984194788703,
+                    "change": 5.09
                 },
                 "7d": {
-                    "price": 717.8408426392709,
-                    "change": -9.58
+                    "price": 657.3171286192104,
+                    "change": 10.95
                 }
             }
         },
         {
             "asset": "DOT",
-            "amount": 4,
-            "price": 6.603550174753888,
-            "total": 26.414200699015552,
-            "average": 3,
-            "totalSpent": 12,
-            "pnl": 14.414200699015552,
-            "pnlPercent": 120.11833915846293,
+            "amount": 7,
+            "price": 7.037666334948992,
+            "total": 49.26366434464294,
+            "average": 3.6,
+            "totalSpent": 25.2,
+            "pnl": 24.06366434464294,
+            "pnlPercent": 95.49073152636089,
             "allTimePnl": 0,
-            "totalPnl": 14.414200699015552,
+            "totalPnl": 24.06366434464294,
             "historicalData": {
                 "1h": {
-                    "price": 6.506086780223813,
-                    "change": 1.5
+                    "price": 7.064182931199614,
+                    "change": -0.47
                 },
                 "1d": {
-                    "price": 7.631927510081074,
-                    "change": -13.47
+                    "price": 6.9858554684287535,
+                    "change": 0.65
                 },
                 "7d": {
-                    "price": 9.038209511929157,
-                    "change": -26.94
+                    "price": 6.932364418710273,
+                    "change": 1.43
                 }
             }
         },
         {
             "asset": "ETHFI",
             "amount": 115,
-            "price": 1.9249651788947169,
-            "total": 221.37099557289244,
+            "price": 2.055003441528246,
+            "total": 236.3253957757483,
             "average": 2.12,
             "totalSpent": 243.8,
-            "pnl": -22.42900442710757,
-            "pnlPercent": -9.19975571251336,
+            "pnl": -7.4746042242517206,
+            "pnlPercent": -3.065875399611042,
             "allTimePnl": 0,
-            "totalPnl": -22.42900442710757,
+            "totalPnl": -7.4746042242517206,
             "historicalData": {
                 "1h": {
-                    "price": 1.902111954910631,
-                    "change": 1.2
+                    "price": 2.0644608086828704,
+                    "change": -0.55
                 },
                 "1d": {
-                    "price": 2.3011136075555165,
-                    "change": -16.35
+                    "price": 2.033551889909475,
+                    "change": 0.96
                 },
                 "7d": {
-                    "price": 2.712397152846825,
-                    "change": -29.03
+                    "price": 1.9865032878204048,
+                    "change": 3.35
                 }
             }
         },
         {
             "asset": "JUP",
             "amount": 15,
-            "price": 0.8183433796166932,
-            "total": 12.2751506942504,
+            "price": 0.8374280451865456,
+            "total": 12.561420677798184,
             "average": 0.9588,
             "totalSpent": 14.382,
-            "pnl": -2.1068493057496003,
-            "pnlPercent": -14.649209468429984,
+            "pnl": -1.8205793222018158,
+            "pnlPercent": -12.65873537895853,
             "allTimePnl": 0.03,
-            "totalPnl": -2.0768493057496005,
+            "totalPnl": -1.7905793222018158,
             "historicalData": {
                 "1h": {
-                    "price": 0.79036129617125,
-                    "change": 3.54
+                    "price": 0.8433462022745546,
+                    "change": -0.7
                 },
                 "1d": {
-                    "price": 0.9207653800634298,
-                    "change": -11.12
+                    "price": 0.8272664567775591,
+                    "change": 1.23
                 },
                 "7d": {
-                    "price": 1.123130008162281,
-                    "change": -27.14
+                    "price": 0.8209070620050265,
+                    "change": 2.01
                 }
             }
         },
         {
             "asset": "OP",
-            "amount": 3,
-            "price": 1.6908455376385032,
-            "total": 5.07253661291551,
-            "average": 1.931,
-            "totalSpent": 5.793,
-            "pnl": -0.7204633870844903,
-            "pnlPercent": -12.436792457871402,
+            "amount": 16,
+            "price": 1.9356725696469008,
+            "total": 30.970761114350413,
+            "average": 1.2120625,
+            "totalSpent": 19.393,
+            "pnl": 11.577761114350412,
+            "pnlPercent": 59.70072249961539,
             "allTimePnl": 2,
-            "totalPnl": 1.2795366129155097,
+            "totalPnl": 13.577761114350412,
             "historicalData": {
                 "1h": {
-                    "price": 1.724466431200039,
-                    "change": -1.95
+                    "price": null,
+                    "change": null
                 },
                 "1d": {
-                    "price": 2.2148525509804426,
-                    "change": -23.66
+                    "price": null,
+                    "change": null
                 },
                 "7d": {
-                    "price": 2.599617536283254,
-                    "change": -34.96
+                    "price": 1.7692637193878862,
+                    "change": 9.41
                 }
             }
         }
@@ -176,6 +186,7 @@ export class PortfolioListComponent implements OnInit {
 
   constructor(
     private webSocketService: WebsocketService,
+    private portfolioService: PortfolioService,
   ) {}
 
   ngOnInit(): void {
@@ -186,7 +197,12 @@ export class PortfolioListComponent implements OnInit {
     //   this.portfolioData = data;
     //   this.dataSource = new MatTableDataSource(this.portfolioData?.assets);
     // });
-    this.dataSource = new MatTableDataSource(this.portfolioData?.assets);
+    this.portfolioService.listenToPortfolioData();
+    this.portfolioService.portfolioData$.subscribe((data) => {
+      this.portfolioData = data;
+      this.dataSource = new MatTableDataSource(this.portfolioData?.assets);
+    });
+    //this.dataSource = new MatTableDataSource(this.portfolioData?.assets);
   }
 
   change1hOnMouseOver(element: any) {

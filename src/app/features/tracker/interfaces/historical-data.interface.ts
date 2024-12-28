@@ -1,6 +1,6 @@
 export interface HistoricalDataEntry {
-    price: number;
-    change: number;
+    price: number | null;
+    change: number | null;
 }
 
 export interface HistoricalData {

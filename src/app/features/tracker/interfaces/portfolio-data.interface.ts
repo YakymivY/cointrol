@@ -2,7 +2,13 @@ import { HistoricalData } from './historical-data.interface';
 
 export interface PortfolioData {
   userId: string;
-  currentPnl: number;
+  portfolioValue: number;
+  currentPnl: ValueChange;
+  fixedPnl: number;
+  totalPnl: number;
+  invested: number;
+  bestPerformer: number | null;
+  worstPerformer: number | null;
   assets?: PortfolioAsset[];
 }
 
@@ -18,4 +24,9 @@ export interface PortfolioAsset {
   allTimePnl: number;
   totalPnl: number;
   historicalData: HistoricalData;
+}
+
+export interface ValueChange {
+  value: number;
+  change: number;
 }

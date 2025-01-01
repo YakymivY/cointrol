@@ -5,11 +5,12 @@ import {
 } from '../../interfaces/portfolio-data.interface';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { PortfolioService } from '../../services/portfolio.service';
+import { AllocationChartComponent } from '../allocation-chart/allocation-chart.component';
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [CommonModule, DecimalPipe],
+  imports: [CommonModule, DecimalPipe, AllocationChartComponent],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.css',
 })
@@ -163,9 +164,9 @@ export class SummaryComponent implements OnInit {
   constructor(private portfolioService: PortfolioService) {}
 
   ngOnInit(): void {
-    // this.portfolioService.portfolioData$.subscribe((data) => {
-    //   this.portfolioData = data;
-    // });
+    this.portfolioService.portfolioData$.subscribe((data) => {
+      this.portfolioData = data;
+    });
   }
 
   getBestPerformer(): PortfolioAsset | null {

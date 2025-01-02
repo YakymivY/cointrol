@@ -19,7 +19,7 @@ import { PortfolioService } from '../../services/portfolio.service';
 })
 export class PortfolioListComponent implements OnInit {
   Math = Math;
-  displayedColumns = [
+  displayedColumns: string[] = [
     'asset',
     'price',
     '1h',

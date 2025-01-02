@@ -18,7 +18,9 @@ export class PricePipe implements PipeTransform {
         digitsAfterComa = 4;
       }
       const rounded: number = Number(value.toFixed(digitsAfterComa));
-      return rounded;
+      return new Intl.NumberFormat('en-US', {
+        maximumFractionDigits: digitsAfterComa,
+      }).format(rounded);
     } else {
       return null;
     }

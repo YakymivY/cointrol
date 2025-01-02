@@ -1,0 +1,53 @@
+::ng-deep .mat-mdc-table {
+  --mat-table-header-container-height: 44px;
+  --mat-table-row-item-container-height: 44px;
+  --mat-table-footer-container-height: 44px;
+}
+
+.type-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.type-icon {
+  width: 20px;
+}
+
+.buy-color {
+  color: var(--green-color);
+}
+
+.sell-color {
+  color: var(--red-color);
+}
+
+
+.transaction-time {
+  color: grey;
+}
+
+
+.na-value {
+  color: grey;
+}
+
+::ng-deep .mat-mdc-paginator-container {
+  --mat-paginator-container-size: 40px;
+}
+
+::ng-deep .mat-mdc-paginator {
+  --mat-paginator-container-background-color: transparent;
+}
+
+::ng-deep .mat-mdc-select-panel {
+  padding: 0;
+}
+
+::ng-deep html {
+  --mat-paginator-enabled-icon-color: white;
+  --mat-paginator-disabled-icon-color: rgb(71, 71, 71);
+  --mat-paginator-form-field-container-height: 32px;
+  --mat-paginator-form-field-container-vertical-padding: 4px;
+  --mat-select-panel-background-color: black;
+}

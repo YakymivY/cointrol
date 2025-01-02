@@ -1,10 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { BalanceResponse } from '../interfaces/balance-response.interface';
 import { environment } from '../../../../environments/environment';
 import { TransactionRequest } from '../interfaces/transaction-request.interface';
 import { WebsocketService } from './websocket.service';
+import { TransactionOutput } from '../interfaces/transaction-output.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,7 @@ export class PortfolioService {
     );
   }
 
+  //start websocket connection
   listenToPortfolioData(): void {
     this.webSocketService.connect();
     this.webSocketService.emit('subscribe-portfolio-data', {});
@@ -53,5 +55,11 @@ export class PortfolioService {
     this.webSocketService.on('portfolio-data', (data) => {
       this.dataSubject.next(data);
     });
+  }
+
+  //get user's transactions
+  getUserTransactions(page: number, limit: number): Observable<TransactionOutput> {
+    const params = new HttpParams().set('limit', limit).set('page', page);
+    return this.http.get<TransactionOutput>(`${environment.API_BASE_URL}transactions`, { params });
   }
 }

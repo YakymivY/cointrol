@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, ChartModule } from 'angular-highcharts';
-import { defaultChartConfig, pieChartConfig } from '../../chart-config';
 import { AllocationItem } from '../../interfaces/allocation-data.interface';
 import { PortfolioService } from '../../services/portfolio.service';
 import { filter, map, take } from 'rxjs';
 import { PortfolioData } from '../../interfaces/portfolio-data.interface';
+import { defaultChartConfig, pieChartConfig } from '../../configs/chart-config';
 
 @Component({
   selector: 'app-allocation-chart',

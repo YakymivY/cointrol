@@ -1,12 +1,10 @@
 import { Options } from 'highcharts';
-import {
-  AllocationItem,
-  TransformedAllocationItem,
-} from './interfaces/allocation-data.interface';
+import { TransformedAllocationItem } from '../interfaces/allocation-data.interface';
 
 export const pieChartConfig = (data: TransformedAllocationItem[]): Options => ({
   chart: {
     type: 'pie',
+    spacing: [20, 20, 20, 20],
     plotShadow: false,
     backgroundColor: '#1d1d1d',
     borderRadius: 15,
@@ -50,7 +48,7 @@ export const pieChartConfig = (data: TransformedAllocationItem[]): Options => ({
     backgroundColor: 'black',
     style: {
       color: 'lightgrey',
-    }
+    },
   },
 
   accessibility: {
@@ -91,6 +89,7 @@ export const pieChartConfig = (data: TransformedAllocationItem[]): Options => ({
 export const defaultChartConfig: Options = {
   chart: {
     type: 'pie',
+    spacing: [20, 20, 20, 20],
     plotShadow: false,
     backgroundColor: '#1d1d1d',
     borderRadius: 15,

@@ -6,6 +6,7 @@ import { environment } from '../../../../environments/environment';
 import { TransactionRequest } from '../interfaces/transaction-request.interface';
 import { WebsocketService } from './websocket.service';
 import { TransactionOutput } from '../interfaces/transaction-output.interface';
+import { FixedPnl } from '../interfaces/fixed-pnl.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -61,5 +62,10 @@ export class PortfolioService {
   getUserTransactions(page: number, limit: number): Observable<TransactionOutput> {
     const params = new HttpParams().set('limit', limit).set('page', page);
     return this.http.get<TransactionOutput>(`${environment.API_BASE_URL}transactions`, { params });
+  }
+
+  //get fixed pnl data
+  getFixedPnlData(): Observable<FixedPnl[]> {
+    return this.http.get<FixedPnl[]>(`${environment.API_BASE_URL}portfolio/fixed-pnl`);
   }
 }

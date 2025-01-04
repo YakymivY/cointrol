@@ -6,11 +6,12 @@ import {
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { PortfolioService } from '../../services/portfolio.service';
 import { AllocationChartComponent } from '../allocation-chart/allocation-chart.component';
+import { PnlChartComponent } from '../pnl-chart/pnl-chart.component';
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [CommonModule, DecimalPipe, AllocationChartComponent],
+  imports: [CommonModule, DecimalPipe, AllocationChartComponent, PnlChartComponent],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.css',
 })

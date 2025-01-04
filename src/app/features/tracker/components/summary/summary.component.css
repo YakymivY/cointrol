@@ -4,6 +4,7 @@
   display: grid;
   grid-template-columns: 5fr 4fr 4fr;
   grid-template-rows: 300px;
+  gap: 10px;
   justify-content: space-between;
   align-items: center;
 }

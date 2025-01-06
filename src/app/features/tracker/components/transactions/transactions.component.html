@@ -1,4 +1,5 @@
-<h1>Transactions</h1>
+<div class="transactions-container">
+  <h1>Transactions</h1>
   <table mat-table [dataSource]="dataSource" class="transaction-table">
     <!-- Transaction type -->
     <ng-container matColumnDef="type">
@@ -11,14 +12,14 @@
               alt=""
               class="type-icon"
             />
-            <span class="buy-color">Buy</span>
+            <span>Buy</span>
           } @else if (element.type === "sell") {
             <img
               src="../../../../../assets/icons/sell.png"
               alt=""
               class="type-icon"
             />
-            <span class="sell-color">Sell</span>
+            <span>Sell</span>
           }
         </div>
       </td>
@@ -59,14 +60,20 @@
 
     <!-- Total -->
     <ng-container matColumnDef="total">
-      <th mat-header-cell *matHeaderCellDef>Total</th>
+      <th mat-header-cell *matHeaderCellDef>Balance change</th>
       <td mat-cell *matCellDef="let element">
         <span
           [ngClass]="{
             'buy-color': element.total < 0,
             'sell-color': element.total >= 0,
           }"
-          >@if(element.total < 0) {+} @else {-}{{ Math.abs(element.total) | number : '1.2-2' }}$
+        >
+          @if (element.total < 0) {
+            +
+          } @else {
+            -
+          }
+          {{ Math.abs(element.total) | number: "1.2-2" }}$
         </span>
       </td>
     </ng-container>
@@ -75,7 +82,9 @@
     <ng-container matColumnDef="storage">
       <th mat-header-cell *matHeaderCellDef>Storage</th>
       <td mat-cell *matCellDef="let element">
-        <span [ngClass]="{'na-value': !element.storage}">{{ element.storage || "N/A" }}</span>
+        <span [ngClass]="{ 'na-value': !element.storage }">{{
+          element.storage || "N/A"
+        }}</span>
       </td>
     </ng-container>
 
@@ -83,4 +92,10 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  <mat-paginator [length]="totalRecords" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons=""></mat-paginator>
+  <mat-paginator
+    [length]="totalRecords"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons=""
+  ></mat-paginator>
+</div>

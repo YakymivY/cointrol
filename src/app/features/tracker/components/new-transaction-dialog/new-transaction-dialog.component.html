@@ -53,7 +53,10 @@
       <div class="column-fields-inner-container">
         <div class="single-field-container">
           @if (transactionType === "sell") {
-            <a href="javascript:void(0)" (click)="setMaxAmount()">Max.</a>
+            <div class="sell-amount-container">
+              <span class="sell-amount-label">{{assetMax}}</span>
+              <a href="javascript:void(0)" (click)="setMaxAmount()">Max.</a>
+            </div>
           }
           <mat-form-field appearance="outline">
             <mat-label>Quantity</mat-label>
@@ -113,7 +116,7 @@
     </mat-form-field>
   </div>
   <div mat-dialog-actions class="button-container">
-    <button mat-button class="transaction-cancel-button" (click)="close()">
+    <button mat-button class="transaction-cancel-button" type="button" (click)="close()">
       Cancel
     </button>
     <button

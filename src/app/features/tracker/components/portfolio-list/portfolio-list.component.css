@@ -1,5 +1,10 @@
+.portfolio-container {
+  margin-top: 50px;
+}
+
 .portfolio__cell {
   position: relative;
+  white-space: nowrap;
 }
 
 .portfolio__extra {
@@ -59,4 +64,20 @@
   --mdc-plain-tooltip-supporting-text-color: white;
   border: 1px solid var(--primary-color);
   border-radius: 4px;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.portfolio__extra.align-right {
+  justify-content: flex-end;
 }

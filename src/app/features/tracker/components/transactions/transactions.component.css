@@ -1,3 +1,7 @@
+.transactions-container {
+  margin-top: 100px;
+}
+
 ::ng-deep .mat-mdc-table {
   --mat-table-header-container-height: 44px;
   --mat-table-row-item-container-height: 44px;

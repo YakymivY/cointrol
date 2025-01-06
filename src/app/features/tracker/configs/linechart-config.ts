@@ -1,6 +1,10 @@
 import { color, Options } from 'highcharts';
 
 export const lineChartConfig = (data?: any): Options => ({
+  time: {
+    useUTC: false, // Prevent UTC conversion
+  } as Highcharts.TimeOptions,
+
   chart: {
     type: 'line',
     spacing: [20, 20, 20, 20],

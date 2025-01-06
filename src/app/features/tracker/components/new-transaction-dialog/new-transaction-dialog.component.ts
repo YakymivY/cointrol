@@ -283,6 +283,16 @@ export class NewTransactionDialogComponent implements OnInit, OnDestroy {
             });
         }
       });
+
+      if (this.transactionType === 'sell') {
+        const chosenAsset: string = this.assetField?.value;
+        if (this.ownedAssets.map((item) => item.asset).includes(chosenAsset)) {
+          const assetObj: OwnedAsset[] = this.ownedAssets.filter(
+            (item) => item.asset === chosenAsset,
+          );
+          this.assetMax = assetObj[0].amount;
+        }
+      }
     });
   }
 

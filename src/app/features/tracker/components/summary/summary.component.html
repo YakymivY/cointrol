@@ -36,8 +36,8 @@
           }">
           <h2 class="performer-asset">{{ getBestPerformer()?.asset }}</h2>
           <div class="performer-data">
-            <p class="performer-change">@if ((getBestPerformer()?.pnl || 0) > 0) {+}{{ getBestPerformer()?.pnl | number : '1.2-2' }}%</p>
-            <p class="performer-value">@if ((getBestPerformer()?.pnlPercent || 0) > 0) {+}{{ getBestPerformer()?.pnlPercent | number : '1.2-2' }}$</p>
+            <p class="performer-change">@if ((getBestPerformer()?.pnlPercent || 0) > 0) {+}{{ getBestPerformer()?.pnlPercent | number : '1.2-2' }}%</p>
+            <p class="performer-value">@if ((getBestPerformer()?.pnl || 0) > 0) {+}{{ getBestPerformer()?.pnl | number : '1.2-2' }}$</p>
           </div>
         </div>
       </div>
@@ -49,8 +49,8 @@
           }">
           <h2 class="performer-asset">{{ getWorstPerformer()?.asset }}</h2>
           <div class="performer-data">
-            <p class="performer-change">@if ((getWorstPerformer()?.pnl || 0) > 0) {+}{{ getWorstPerformer()?.pnl | number : '1.2-2' }}%</p>
-            <p class="performer-value">@if ((getWorstPerformer()?.pnlPercent || 0) > 0) {+}{{ getWorstPerformer()?.pnlPercent | number : '1.2-2' }}$</p>
+            <p class="performer-change">@if ((getWorstPerformer()?.pnlPercent || 0) > 0) {+}{{ getWorstPerformer()?.pnlPercent | number : '1.2-2' }}%</p>
+            <p class="performer-value">@if ((getWorstPerformer()?.pnl || 0) > 0) {+}{{ getWorstPerformer()?.pnl | number : '1.2-2' }}$</p>
           </div>
         </div>
       </div>

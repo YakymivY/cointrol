@@ -72,6 +72,17 @@ input[type="number"]::-webkit-outer-spin-button {
   flex: 1;
 }
 
+.sell-amount-container {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.sell-amount-label {
+  color: grey;
+  font-size: 0.8em;
+}
+
 .column-fields-inner-container mat-form-field {
   width: 100%;
   flex: 1;

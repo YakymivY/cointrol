@@ -1,0 +1,38 @@
+::ng-deep app-root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep app-token {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px 0;
+  gap: 20px;
+}
+
+.token-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.token-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.token-metrics {
+  width: 30%;
+  height: 100%;
+}
+
+.token-chart {
+  width: 70%;
+  height: 100%;
+}

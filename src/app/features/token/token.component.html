@@ -1,1 +1,11 @@
-<p>token works!</p>
+<div class="token-bar">
+  <h1 class="token-ticker">{{ ticker }}</h1>
+</div>
+<div class="token-content">
+  <div class="token-metrics">
+    <app-price [ticker]="ticker"></app-price>
+  </div>
+  <div class="token-chart">
+    <app-chart [ticker]="ticker"></app-chart>
+  </div>
+</div>

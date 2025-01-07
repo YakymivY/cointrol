@@ -1,0 +1,90 @@
+<div class="metrics-container">
+  <!-- Metric -->
+  <div class="value-container">
+    <div class="metric-wrapper">
+      <p class="metric-label">Market Cap</p>
+      <div class="metric-line"></div>
+      <p class="metric-value"><span class="mc-position">#{{ metrics.market_cap_rank }}</span>${{ metrics.market_cap | numberAbbreviation : 2 }}</p>
+    </div>
+    <div class="metric-wrapper">
+      <p class="metric-label">Fully Diluted Valuation</p>
+      <div class="metric-line"></div>
+      <p class="metric-value">${{ metrics.fully_diluted_valuation | numberAbbreviation : 2 }}</p>
+    </div>
+    <div class="metric-wrapper">
+      <p class="metric-label">Total Volume</p>
+      <div class="metric-line"></div>
+      <p class="metric-value">${{ metrics.total_volume | numberAbbreviation : 2 }}</p>
+    </div>
+  </div>
+  <!-- Supply -->
+  <div class="supply-container">
+    <div class="supply-item">
+      <p class="supply-label">Circulating Supply</p>
+      <p class="supply-value">{{ metrics.circulating_supply | numberAbbreviation : 2 }}  {{ ticker()?.toUpperCase() }}</p>
+    </div>
+    <div class="divider"></div>
+    <div class="supply-item">
+      <p class="supply-label">Max Supply</p>
+      <p class="supply-value">{{ (metrics.max_supply | numberAbbreviation : 2) || '∞' }}  {{ ticker()?.toUpperCase() }}</p>
+    </div>
+    <div class="divider"></div>
+    <div class="supply-item">
+      <p class="supply-label">Total Supply</p>
+      <p class="supply-value">{{ metrics.total_supply | numberAbbreviation : 2 }}  {{ ticker()?.toUpperCase() }}</p>
+    </div>
+  </div>
+  <!-- Day change -->
+  <div class="day-container">
+    <div class="day-content">
+      <p class="day-label">24h High</p>
+      <div class="day-item high-value">
+        <p class="day-value">{{ metrics.high_24h | price }}$</p>
+      </div>
+    </div>
+    <div class="day-content">
+      <p class="day-label">24h Low</p>
+      <div class="day-item low-value">
+        <p class="day-value">{{ metrics.low_24h | price }}$</p>
+      </div>
+    </div>
+  </div>
+  <!-- Change -->
+  <div class="change-container">
+    <div class="change-content">
+      <p class="change-label">24h Price Change</p>
+      <div class="change-item">
+        <p class="change-value">@if (metrics.price_change_24h >= 0) {+}{{ metrics.price_change_24h | number : '1.2-2' }}$</p>
+        <p class="change-change">@if (metrics.price_change_percentage_24h >= 0) {+}{{ metrics.price_change_percentage_24h | number : '1.2-2' }}%</p>
+      </div>
+    </div>
+    <div class="change-content">
+      <p class="change-label">24h MCap Change</p>
+      <div class="change-item">
+        <p class="change-value">@if (metrics.market_cap_change_24h >= 0) {+} @else {-}{{ Math.abs(metrics.market_cap_change_24h) | numberAbbreviation : 2 }}$</p>
+        <p class="change-change">@if (metrics.market_cap_change_percentage_24h >= 0) {+}{{ metrics.market_cap_change_percentage_24h | number : '1.2-2' }}%</p>
+      </div>
+    </div>
+  </div>
+  <!-- All-time -->
+  <div class="all-time-container">
+    <div class="all-time-part-container">
+      <div class="all-time-content">
+        <p class="all-time-label">ATH</p>
+        <p class="all-time-value">
+          {{ metrics.ath | number : '1.2-2' }}$ <span class="all-time-change">({{ metrics.ath_change_percentage | numberAbbreviation : 2 }}%)</span>
+        </p>
+      </div>
+      <p class="all-time-date">{{ metrics.ath_date | date : 'mediumDate' }}</p>
+    </div>
+    <div class="all-time-part-container">
+      <div class="all-time-content">
+        <p class="all-time-label">ATL</p>
+        <p class="all-time-value">
+          {{ metrics.atl | number : '1.2-2' }}$ <span class="all-time-change">(@if(metrics.atl_change_percentage >= 0) {+}{{ metrics.atl_change_percentage | numberAbbreviation : 2 }}%)</span>
+        </p>
+      </div>
+      <p class="all-time-date">{{ metrics.atl_date | date : 'mediumDate' }}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,158 @@
+<div class="tokenlist-container">
+  <div class="cards-container">
+    @for (item of cards; track $index) {
+      <div class="card" [routerLink]="['token', item.symbol]">
+        <!-- Header Left  -->
+        <div class="card-header">
+          <div class="card-header-left">
+            <span class="card-rank">#{{ item.market_cap_rank }}</span>
+            <p class="card-asset">{{ item.name }}</p>
+            <p class="card-symbol">{{ item.symbol.toUpperCase() }}</p>
+          </div>
+          <!-- Header Right  -->
+          <div class="card-header-right">
+            <span class="card-ath-label">ATH</span>
+            <span class="card-ath">${{ item.ath | price }}</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-price">
+            <span class="accented">$</span>{{ item.price | price }}
+          </h2>
+          <img [src]="item.icon" alt="" class="card-image" />
+        </div>
+        <div class="card-footer">
+          <!-- Market Cap  -->
+          <div class="card-mc-container">
+            <p class="card-mc-label">Market Cap</p>
+            <p class="card-mc">
+              ${{ item.market_cap | numberAbbreviation: 2 }}
+            </p>
+          </div>
+          <!-- 24h Volume  -->
+          <div class="card-volume-container">
+            <p class="card-volume-label">24h Volume</p>
+            <p class="card-volume">
+              {{ item.usd_24h_vol | numberAbbreviation: 2 }}
+            </p>
+          </div>
+          <!-- 24 change -->
+          <div class="card-change-container">
+            <p class="card-change-label">24h Change</p>
+            <p
+              class="card-change"
+              [ngClass]="{
+                'color-red': item.usd_24h_change < 0,
+                'color-green': item.usd_24h_change >= 0,
+              }"
+            >
+              {{ item.usd_24h_change | number: "1.2-2" }}%
+            </p>
+          </div>
+          <div class="card-day-container">
+            <p class="card-day-label">24h Low / High</p>
+            <p class="card-day">
+              <span class="color-red">${{ item.low_24h | price }}</span> /
+              <span class="color-green">${{ item.high_24h | price }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+  <table mat-table [dataSource]="dataSource" class="tokenlist-table">
+    <!-- Rank -->
+    <ng-container matColumnDef="rank">
+      <th mat-header-cell *matHeaderCellDef class="align-center">Rank</th>
+      <td mat-cell *matCellDef="let element" class="align-center">
+        {{ element.market_cap_rank }}
+      </td>
+    </ng-container>
+
+    <!-- Asset -->
+    <ng-container matColumnDef="asset">
+      <th mat-header-cell *matHeaderCellDef>Asset</th>
+      <td mat-cell *matCellDef="let element">
+        <div class="asset-container">
+          <img [src]="element.icon" alt="" class="asset-icon" />
+          <p class="asset-name">{{ element.name }}</p>
+          <p class="asset-symbol">{{ element.symbol.toUpperCase() }}</p>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Price -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef class="align-end">Price</th>
+      <td mat-cell *matCellDef="let element" class="align-end">
+        ${{ element.price | price }}
+      </td>
+    </ng-container>
+
+    <!-- 24h Change -->
+    <ng-container matColumnDef="change">
+      <th mat-header-cell *matHeaderCellDef class="align-end">24h Change</th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="align-end"
+        [ngClass]="{
+          'color-red': element.usd_24h_change < 0,
+          'color-green': element.usd_24h_change >= 0,
+        }"
+      >
+        @if (element.usd_24h_change >= 0) {
+          +
+        }
+        {{ element.usd_24h_change | number: "1.2-2" }}%
+      </td>
+    </ng-container>
+
+    <!-- Market Cap -->
+    <ng-container matColumnDef="mcap">
+      <th mat-header-cell *matHeaderCellDef class="align-end">Market Cap</th>
+      <td mat-cell *matCellDef="let element" class="align-end">
+        ${{ element.market_cap | numberAbbreviation: 2 }}
+      </td>
+    </ng-container>
+
+    <!-- 24h Volume  -->
+    <ng-container matColumnDef="volume">
+      <th mat-header-cell *matHeaderCellDef class="align-end">24h Volume</th>
+      <td mat-cell *matCellDef="let eleement" class="align-end">
+        ${{ eleement.usd_24h_vol | numberAbbreviation: 2 }}
+      </td>
+    </ng-container>
+
+    <!-- Ath -->
+    <ng-container matColumnDef="ath">
+      <th mat-header-cell *matHeaderCellDef class="align-end">ATH</th>
+      <td mat-cell *matCellDef="let element" class="align-end">
+        ${{ element.ath | price }}
+      </td>
+    </ng-container>
+
+    <!-- 24h Low/High  -->
+    <ng-container matColumnDef="day">
+      <th mat-header-cell *matHeaderCellDef class="align-end">24h Low/High</th>
+      <td mat-cell *matCellDef="let element" class="align-end">
+        <span class="color-red">${{ element.low_24h | price }}</span> /
+        <span class="color-green">${{ element.high_24h | price }}</span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      [routerLink]="['/token', row.symbol]"
+    ></tr>
+  </table>
+
+  <mat-paginator
+    [length]="totalRecords"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons=""
+  ></mat-paginator>
+</div>

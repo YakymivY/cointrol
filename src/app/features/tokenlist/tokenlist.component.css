@@ -1,0 +1,165 @@
+.cards-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.card {
+  flex: 1;
+  height: 300px;
+  background-color: var(--primary-grey);
+  border-radius: 15px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.card:hover {
+  background-color: transparent;
+}
+
+.card-header {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.card-header-left {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+.card-rank {
+  font-size: 1.2em;
+  color: var(--secondary-grey);
+}
+
+.card-asset {
+  font-size: 1.2em;
+}
+
+.card-symbol {
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+
+.card-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.card-ath-label {
+  color: var(--secondary-grey);
+  font-size: 0.8em;
+}
+
+.card-ath {
+  color: var(--secondary-grey);
+}
+
+.card-body {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-price {
+  font-size: 2.5em;
+}
+
+.card-image {
+  width: 100px;
+}
+
+.card-footer {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.card-mc-label, .card-volume-label, .card-change-label, .card-day-label {
+  color: var(--secondary-grey);
+  font-size: 0.8em;
+}
+
+.tokenlist-container {
+  width: 100%;
+  padding: 20px 0;
+}
+
+::ng-deep .mat-mdc-table {
+  --mat-table-background-color: black;
+  --mat-table-header-headline-font: 'Questrial';
+  --mat-table-row-item-label-text-font: 'Questrial';
+}
+
+.mat-mdc-table tr.mat-mdc-row:hover {
+  background-color: var(--primary-grey);
+}
+
+::ng-deep .mat-mdc-header-row {
+  --mat-table-row-item-outline-color: var(--primary-color);
+  --mat-table-row-item-outline-width: 2px;
+}
+
+.asset-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.asset-icon {
+  width: 25px;
+}
+
+.asset-symbol {
+  color: var(--secondary-grey);
+}
+
+.color-red {
+  color: var(--red-color);
+}
+
+.color-green {
+  color: var(--green-color);
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-end {
+  text-align: end;
+}
+
+::ng-deep .mat-mdc-paginator-container {
+  --mat-paginator-container-size: 40px;
+}
+
+::ng-deep .mat-mdc-paginator {
+  --mat-paginator-container-background-color: transparent;
+}
+
+::ng-deep .mat-mdc-select-panel {
+  padding: 0;
+}
+
+::ng-deep html {
+  --mat-paginator-enabled-icon-color: white;
+  --mat-paginator-disabled-icon-color: rgb(71, 71, 71);
+  --mat-paginator-form-field-container-height: 32px;
+  --mat-paginator-form-field-container-vertical-padding: 4px;
+  --mat-select-panel-background-color: black;
+}

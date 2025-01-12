@@ -42,10 +42,7 @@ export class PortfolioService {
   }
 
   fetchExrate(asset: string): Observable<number> {
-    const headers = new HttpHeaders().set('X-CoinAPI-Key', environment.COINAPI_KEY);
-    return this.http.get<any>(`${environment.COINAPI_URL}/exchangerate/${asset}/USDT`, { headers }).pipe(
-      map(data => data.rate)
-    );
+    return this.http.get<number>(`${environment.API_BASE_URL}portfolio/exchange-rate/${asset}`);
   }
 
   //start websocket connection

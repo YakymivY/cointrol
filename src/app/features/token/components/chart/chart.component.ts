@@ -1,14 +1,19 @@
-import { AfterViewInit, Component, ElementRef, input, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  input,
+  ViewChild,
+} from '@angular/core';
 
 @Component({
   selector: 'app-chart',
   standalone: true,
   imports: [],
   templateUrl: './chart.component.html',
-  styleUrl: './chart.component.css'
+  styleUrl: './chart.component.css',
 })
 export class ChartComponent implements AfterViewInit {
-
   ticker = input<string>();
   @ViewChild('widgetContainer', { static: true }) widgetContainer!: ElementRef;
 
@@ -18,7 +23,8 @@ export class ChartComponent implements AfterViewInit {
 
   private loadTradingViewWidget(): void {
     const script = document.createElement('script');
-    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
+    script.src =
+      'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
     script.type = 'text/javascript';
     script.async = true;
 

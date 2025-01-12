@@ -25,10 +25,9 @@ import {
   Subject,
   switchMap,
   takeUntil,
-  tap,
 } from 'rxjs';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { environment } from '../../../../../environments/environment';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -375,7 +374,7 @@ export class NewTransactionDialogComponent implements OnInit, OnDestroy {
       //convert it to neg if it's sell tx
       const signedAmount: number =
         this.newTransactionForm.get('type')?.value == 'sell' ? -amount : amount;
-      //TODO add storage
+      //form object to send
       const formData: TransactionRequest = {
         asset: this.assetField?.value,
         amount: signedAmount,

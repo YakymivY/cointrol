@@ -1,0 +1,175 @@
+<div class="notifications-outer-container">
+  @if (telegramAccount) {
+    <app-account-bar [telegramAccount]="telegramAccount"></app-account-bar>
+  }
+  <div class="notifications-container">
+    <div class="notifications-left">
+      <h1>Your alerts</h1>
+      <div class="alerts-container">
+        @for (alert of alerts; track alert.id) {
+          <div class="alert-item" [class.unactive]="!alert.active">
+            <div class="alert-left-side">
+              <!-- Icon -->
+              <img [src]="alert.icon" alt="" class="alert-icon" />
+              <!-- Asset -->
+              <div class="alert-asset">
+                <p class="alert-asset-ticker">
+                  {{ alert.symbol.toUpperCase() }}
+                </p>
+                <p class="alert-asset-name">{{ alert.name }}</p>
+              </div>
+              <!-- Price -->
+              <p
+                class="alert-price"
+                [ngClass]="{
+                  'color-red': alert.direction === 'below',
+                  'color-green': alert.direction === 'above',
+                }"
+              >
+                @if (alert.direction === "above") {
+                  ↑
+                } @else {
+                  ↓
+                }
+                ${{ alert.target_price | price }}
+                <span class="alert-current-price"
+                  >(${{ alert.price | price }})</span
+                >
+              </p>
+              <!-- Change
+            <p
+              [ngClass]="{
+                'color-red': alert.change < 0,
+                'color-green': alert.change >= 0,
+              }"
+              class="alert-change"
+            >
+              @if (alert.change >= 0) {
+                +
+              }
+              {{ alert.change | number: "1.2-2" }}%
+            </p> -->
+            </div>
+            <div class="alert-right-side">
+              <!-- Date -->
+              @if (alert.active) {
+                <p class="alert-date">
+                  {{ alert.created_at | date: "mediumDate" }}
+                </p>
+              } @else {
+                <p class="alert-unactive">Unactive</p>
+              }
+              <!-- Buttons -->
+              @if (!alert.active) {
+                <img
+                  src="../../../assets/icons/refresh.png"
+                  alt=""
+                  role="button"
+                  tabindex="0"
+                  class="alert-button"
+                  (click)="activateAlert(alert.id)"
+                  (keydown.enter)="activateAlert(alert.id)"
+                  (keydown.space)="activateAlert(alert.id)"
+                />
+              }
+              <img
+                src="../../../assets/icons/delete.png"
+                alt=""
+                role="button"
+                tabindex="0"
+                class="alert-button"
+                (click)="deleteAlert(alert.id)"
+                (keydown.enter)="deleteAlert(alert.id)"
+                (keydown.space)="deleteAlert(alert.id)"
+              />
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+    <div class="notifications-right">
+      @if (!telegramAccount) {
+        <div class="login-button-container">
+          <app-telegram-login></app-telegram-login>
+        </div>
+      } @else {
+        <h1>Create alert</h1>
+        <form
+          class="notifications-form"
+          [formGroup]="notificationsForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <!-- Token field  -->
+          <mat-form-field class="notifications-field" appearance="outline">
+            <mat-label>Token</mat-label>
+            <mat-autocomplete #auto="matAutocomplete">
+              @for (token of filteredOptions | async; track token) {
+                <mat-option [value]="token">{{
+                  token.toUpperCase()
+                }}</mat-option>
+              }
+            </mat-autocomplete>
+            <input
+              type="text"
+              placeholder="Pick One"
+              aria-label="Number"
+              matInput
+              formControlName="token"
+              [matAutocomplete]="auto"
+              (click)="resetInput()"
+            />
+            @if (tokenField?.hasError("required")) {
+              <mat-error>Choose an asset to proceed...</mat-error>
+            } @else if (tokenField?.hasError("notExists")) {
+              <mat-error>There is no such token :(</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Target Price Field -->
+          <mat-form-field class="notifications-field" appearance="outline">
+            <mat-label>Target price</mat-label>
+            <input matInput type="number" formControlName="target_price" />
+            @if (
+              targetPriceField?.hasError("required") &&
+              targetPriceField?.touched
+            ) {
+              <mat-error>Choose the price of one token.</mat-error>
+            } @else if (
+              targetPriceField?.hasError("notPositive") &&
+              targetPriceField?.touched
+            ) {
+              <mat-error>You put negative price ???</mat-error>
+            }
+          </mat-form-field>
+
+          <div class="notifications-summary">
+            @if (price) {
+              <p class="alert-price-label">
+                Current {{ token }} price:
+                <span class="alert-price-value">${{ price | price }}</span>
+              </p>
+            }
+            @if (price) {
+              <p class="alert-price-label">
+                Send noification when
+                <span class="alert-price-value">{{ token }}</span> price is
+                <span class="alert-price-value"
+                  >{{ direction }} ${{ (target_price | price) || "..." }}</span
+                >
+              </p>
+            }
+          </div>
+
+          <button
+            type="submit"
+            mat-raised-button
+            class="notifications-submit-button"
+            [disabled]="notificationsForm.invalid"
+          >
+            Create
+          </button>
+        </form>
+      }
+    </div>
+  </div>
+</div>

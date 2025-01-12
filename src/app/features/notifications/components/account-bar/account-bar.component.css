@@ -1,0 +1,25 @@
+.account-bar-container {
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.account-bar-inner-container {
+  width: calc(80% + 25px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.telegram-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.telegram-image {
+  width: 40px;
+  border-radius: 20px;
+}

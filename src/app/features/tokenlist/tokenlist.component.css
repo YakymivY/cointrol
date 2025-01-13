@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 25px;
+  margin-top: 50px;
 }
 
 .card {
@@ -91,6 +92,10 @@
 .card-mc-label, .card-volume-label, .card-change-label, .card-day-label {
   color: var(--secondary-grey);
   font-size: 0.8em;
+}
+
+.tokenlist-table {
+  margin-top: 50px;
 }
 
 .tokenlist-container {

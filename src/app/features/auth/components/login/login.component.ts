@@ -53,7 +53,7 @@ export class LoginComponent {
           this.saveToken(response.token);
           this.isSubmitting = false;
           this.errorMessage = null;
-          this.router.navigateByUrl('/portfolio');
+          this.router.navigateByUrl('/');
         },
         error: (error: Error) => {
           console.error('Login failed', error);

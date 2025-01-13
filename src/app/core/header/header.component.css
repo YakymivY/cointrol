@@ -35,3 +35,14 @@
   width: 20px;
   margin-right: 10px;
 }
+
+::ng-deep .mdc-button {
+  --mdc-filled-button-container-color: var(--primary-color);
+  --mdc-filled-button-container-height: 32px;
+  --mat-filled-button-horizontal-padding: 10px;
+}
+
+::ng-deep .mat-mdc-raised-button {
+  --mdc-protected-button-container-height: 32px;
+  --mat-protected-button-horizontal-padding: 10px;
+}

@@ -94,8 +94,21 @@
   font-size: 0.8em;
 }
 
-.tokenlist-table {
-  margin-top: 50px;
+.search-container {
+  padding: 40px 0 0 0;
+}
+
+::ng-deep html {
+  --mat-form-field-container-height: 44px;
+  --mat-form-field-container-vertical-padding: 10px;
+}
+
+::ng-deep .mdc-text-field--no-label:not(.mdc-text-field--textarea) .mat-mdc-form-field-input-control.mdc-text-field__input, .mat-mdc-text-field-wrapper .mat-mdc-form-field-input-control {
+  height: 24px !important;
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+  display: none;
 }
 
 .tokenlist-container {

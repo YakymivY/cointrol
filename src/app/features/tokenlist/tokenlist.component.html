@@ -60,6 +60,26 @@
       </div>
     }
   </div>
+  <div class="search-container">
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+      <mat-form-field appearance="outline">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSearch()">
+          @for (asset of filteredOptions | async; track asset) {
+            <mat-option [value]="asset">{{ asset }}</mat-option>
+          }
+        </mat-autocomplete>
+        <input
+          type="text"
+          placeholder="Search..."
+          aria-label="Number"
+          matInput
+          formControlName="search"
+          [matAutocomplete]="auto"
+          (click)="resetInput()"
+        />
+      </mat-form-field>
+    </form>
+  </div>
   <table mat-table [dataSource]="dataSource" class="tokenlist-table">
     <!-- Rank -->
     <ng-container matColumnDef="rank">

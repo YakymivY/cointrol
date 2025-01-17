@@ -22,9 +22,8 @@ export class NotificationsService {
     return this.http.get<TelegramUser>(`${environment.NOTIFICATIONS_API_BASE_URL}telegram-auth`);
   }
 
-  createAlert(data: AddAlert): Observable<void> {
-    console.log(data);
-    return this.http.post<void>(`${environment.NOTIFICATIONS_API_BASE_URL}alerts/new`, { data });
+  createAlert(data: AddAlert): Observable<AlertData> {
+    return this.http.post<AlertData>(`${environment.NOTIFICATIONS_API_BASE_URL}alerts/new`, { data });
   }
 
   getUserAlerts(): Observable<AlertData[]> {

@@ -10,9 +10,11 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .operations-dialog-container {
   padding: 20px;
+  min-width: 400px;
 }
 
 .operations-field {
+  width: 100%;
   margin: 15px 0;
 }
 

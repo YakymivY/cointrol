@@ -40,6 +40,8 @@ import { storageExistsValidator } from '../../validators/storage-exists.validato
 import { TransactionType } from '../../enums/transaction-type.enum';
 import { OwnedAsset } from '../../interfaces/owned-asset.interface';
 import { PricePipe } from '../../pipes/price.pipe';
+import { TransactionResponse } from '../../interfaces/transaction-response.interface';
+import { UpdateService } from '../../services/update.service';
 
 @Component({
   selector: 'app-new-transaction-dialog',
@@ -193,6 +195,7 @@ export class NewTransactionDialogComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private dialogRef: MatDialogRef<NewTransactionDialogComponent>,
     private portfolioService: PortfolioService,
+    private updateService: UpdateService,
   ) {
     this.newTransactionForm = this.fb.group({
       asset: ['', [Validators.required], [assetExistsValidator(http)]],
@@ -384,9 +387,15 @@ export class NewTransactionDialogComponent implements OnInit, OnDestroy {
 
       //create save request
       this.portfolioService.addTransaction(formData).subscribe({
-        next: (response) => {
+        next: (response: TransactionResponse) => {
           this.isSubmitting = false;
           this.errorMessage = null;
+
+          //trigger ui update
+          const { transaction, balance } = response
+          this.updateService.addTransaction([transaction]);
+          this.updateService.updateBalance(balance);
+
           this.dialogRef.close();
         },
         error: (error: Error) => {

@@ -7,6 +7,9 @@ import { TransactionRequest } from '../interfaces/transaction-request.interface'
 import { WebsocketService } from './websocket.service';
 import { TransactionOutput } from '../interfaces/transaction-output.interface';
 import { FixedPnl } from '../interfaces/fixed-pnl.interface';
+import { DepositResponse } from '../interfaces/deposit-response.interface';
+import { WithdrawResponse } from '../interfaces/withdraw-response.interface';
+import { TransactionResponse } from '../interfaces/transaction-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -21,16 +24,16 @@ export class PortfolioService {
     return this.http.get<BalanceResponse>(`${environment.API_BASE_URL}portfolio/balance`);
   }
 
-  makeDeposit(amount: number): Observable<Object> {
-    return this.http.post(`${environment.API_BASE_URL}portfolio/deposit`, { amount });
+  makeDeposit(amount: number): Observable<DepositResponse> {
+    return this.http.post<DepositResponse>(`${environment.API_BASE_URL}portfolio/deposit`, { amount });
   }
 
-  makeWithdraw(amount: number): Observable<Object> {
-    return this.http.post(`${environment.API_BASE_URL}portfolio/withdraw`, { amount });
+  makeWithdraw(amount: number): Observable<WithdrawResponse> {
+    return this.http.post<WithdrawResponse>(`${environment.API_BASE_URL}portfolio/withdraw`, { amount });
   }
 
-  addTransaction(data: TransactionRequest): Observable<Object> {
-    return this.http.post(`${environment.API_BASE_URL}transactions/new`, data);
+  addTransaction(data: TransactionRequest): Observable<TransactionResponse> {
+    return this.http.post<TransactionResponse>(`${environment.API_BASE_URL}transactions/new`, data);
   }
 
   getListOfStorages(): Observable<any> {

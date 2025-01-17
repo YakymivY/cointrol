@@ -82,9 +82,10 @@
     <ng-container matColumnDef="storage">
       <th mat-header-cell *matHeaderCellDef>Storage</th>
       <td mat-cell *matCellDef="let element">
-        <a [href]="element.storage.url" target="_blank"><span [ngClass]="{ 'na-value': !element.storage.name }">{{
-          element.storage.name || "N/A"
-        }}</span></a>
+        <a [href]="element.storage ? element.storage.url : ''" target="_blank"
+          ><span [ngClass]="{ 'na-value': !element.storage }">
+            {{ element.storage ? element.storage.name : "N/A" }}
+          </span></a>
       </td>
     </ng-container>
 

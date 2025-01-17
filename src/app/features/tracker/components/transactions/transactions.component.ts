@@ -5,16 +5,26 @@ import { PricePipe } from '../../pipes/price.pipe';
 import { PortfolioService } from '../../services/portfolio.service';
 import { TransactionOutput } from '../../interfaces/transaction-output.interface';
 import { MatPaginator } from '@angular/material/paginator';
+import { UpdateService } from '../../services/update.service';
+import { Transaction } from '../../interfaces/transaction.interface';
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [CommonModule, MatTableModule, DatePipe, PricePipe, DecimalPipe, MatPaginator],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    DatePipe,
+    PricePipe,
+    DecimalPipe,
+    MatPaginator,
+  ],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.css',
 })
 export class TransactionsComponent implements OnInit {
   Math = Math;
+  isInitialLoad: boolean = true;
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   displayedColumns: string[] = [
     'type',
@@ -64,9 +74,19 @@ export class TransactionsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private portfolioService: PortfolioService) {}
+  constructor(
+    private portfolioService: PortfolioService,
+    private updateService: UpdateService,
+  ) {}
 
   ngOnInit(): void {
+    //subscribe to transactions updates
+    this.updateService.transactions$.subscribe((transactions) => {
+      console.log(transactions.slice(0, this.pageSize));
+      this.dataSource.data = transactions.slice(0, this.pageSize);
+      this.totalRecords++;
+    });
+
     this.loadTransactions(this.currentPage, this.pageSize);
   }
 
@@ -75,14 +95,18 @@ export class TransactionsComponent implements OnInit {
       this.currentPage = event.pageIndex + 1;
       this.pageSize = event.pageSize;
       this.loadTransactions(this.currentPage, this.pageSize);
-    })
+    });
   }
 
   loadTransactions(page: number, size: number): void {
     this.portfolioService.getUserTransactions(page, size).subscribe({
       next: (response: TransactionOutput) => {
         this.dataSource.data = response.data;
-        this.totalRecords = response.total; 
+        this.totalRecords = response.total;
+        if (this.isInitialLoad) {
+          this.updateService.addTransaction(response.data);
+          this.isInitialLoad = false;
+        }
       },
       error: (error: Error) => {
         console.error('Error fetching user transactions: ', error);

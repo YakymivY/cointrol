@@ -25,7 +25,7 @@ import {
 } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { AsyncPipe, CommonModule, DecimalPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { assetExistsValidator } from '../tracker/validators/asset-exists.validator';
 import { positiveNumberValidator } from '../tracker/validators/positive-number.validator';
 import { PortfolioService } from '../tracker/services/portfolio.service';
@@ -46,7 +46,6 @@ import { AccountBarComponent } from './components/account-bar/account-bar.compon
     MatButtonModule,
     AsyncPipe,
     PricePipe,
-    DecimalPipe,
     AccountBarComponent,
   ],
   templateUrl: './notifications.component.html',
@@ -258,6 +257,9 @@ export class NotificationsComponent implements OnInit {
     this.notificationsService.activateAlert(id).subscribe({
       next: () => {
         console.log('Alert successfully activated');
+        this.alerts = this.alerts.map(item => 
+          (item.id === id ? { ...item, active: true } : item)
+        )
       },
       error: (error: Error) => {
         console.error('Error occured while activating the alert', error);
@@ -269,6 +271,7 @@ export class NotificationsComponent implements OnInit {
     this.notificationsService.deleteAlert(id).subscribe({
       next: () => {
         console.log('Alert successfully deleted');
+        this.alerts = this.alerts.filter(item => item.id !== id);
       },
       error: (error: Error) => {
         console.error('Error occured while deleting the alert', error);
@@ -312,8 +315,8 @@ export class NotificationsComponent implements OnInit {
 
       //create save request
       this.notificationsService.createAlert(formData).subscribe({
-        next: () => {
-          console.log('Alert created successfully');
+        next: (response: AlertData) => {
+          this.alerts.push(response);
         },
         error: (error: Error) => {
           console.error('Error creating new alert:', error.message);

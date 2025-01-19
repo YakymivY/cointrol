@@ -39,6 +39,8 @@
     "@types/jasmine": "~5.1.0",
     "@types/node": "^22.10.7",
     "angular-eslint": "18.3.1",
+    "dotenv": "^16.4.7",
+    "dotenv-webpack": "^8.1.0",
     "eslint": "^9.9.1",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
@@ -46,6 +48,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "ngx-build-plus": "^19.0.0",
     "prettier": "^3.3.3",
     "typescript": "~5.5.2",
     "typescript-eslint": "8.2.0"

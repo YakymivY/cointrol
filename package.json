@@ -36,6 +36,7 @@
     "@angular/compiler-cli": "^18.2.0",
     "@ngx-env/builder": "^19.0.4",
     "@types/jasmine": "~5.1.0",
+    "@types/node": "^22.10.7",
     "angular-eslint": "18.3.1",
     "eslint": "^9.9.1",
     "jasmine-core": "~5.2.0",

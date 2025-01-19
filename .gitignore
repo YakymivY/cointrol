@@ -6,7 +6,6 @@
 *.log
 /node_modules/
 .vscode/
-environments/
 
 # CircleCI temporary file for cache key computation.
 # See `save_month_to_file` in `.circleci/config.yml`.
@@ -66,3 +65,5 @@ baseline.json
 # Ignore AIO files, useful when changing branches 
 aio/node_modules
 aio/out-tsc
+
+.env

@@ -190,11 +190,11 @@ export class PortfolioListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.portfolioService.listenToPortfolioData();
-    // this.portfolioService.portfolioData$.subscribe((data) => {
-    //   this.portfolioData = data;
-    //   this.dataSource = new MatTableDataSource(this.portfolioData?.assets);
-    // });
+    this.portfolioService.listenToPortfolioData();
+    this.portfolioService.portfolioData$.subscribe((data) => {
+      this.portfolioData = data;
+      this.dataSource = new MatTableDataSource(this.portfolioData?.assets);
+    });
   }
 
   change1hOnMouseOver(element: any) {

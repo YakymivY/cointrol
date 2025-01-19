@@ -33,6 +33,7 @@ import { PricePipe } from '../tracker/pipes/price.pipe';
 import { AlertData } from './interfaces/alert-data.interface';
 import { AddAlert } from './interfaces/add-alert.interface';
 import { AccountBarComponent } from './components/account-bar/account-bar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-notifications',
@@ -179,6 +180,7 @@ export class NotificationsComponent implements OnInit {
     private portfolioService: PortfolioService,
     private fb: FormBuilder,
     private http: HttpClient,
+    private snackBar: MatSnackBar,
   ) {
     this.notificationsForm = this.fb.group({
       token: ['', [Validators.required], [assetExistsValidator(http)]],
@@ -237,7 +239,7 @@ export class NotificationsComponent implements OnInit {
         this.telegramAccount = response;
       },
       error: (error: Error) => {
-        console.error('A telegram account was not received', error);
+        this.showSnackBar('snackbar-error', 'A telegram account was not received');
       },
     });
   }
@@ -248,7 +250,7 @@ export class NotificationsComponent implements OnInit {
         this.alerts = response;
       },
       error: (error: Error) => {
-        console.error('Failed to fetch user alerts', error);
+        this.showSnackBar('snackbar-error', 'Failed to fetch user alerts');
       },
     });
   }
@@ -256,13 +258,13 @@ export class NotificationsComponent implements OnInit {
   activateAlert(id: number): void {
     this.notificationsService.activateAlert(id).subscribe({
       next: () => {
-        console.log('Alert successfully activated');
+        this.showSnackBar('snackbar-success', 'Alert successfully activated');
         this.alerts = this.alerts.map(item => 
           (item.id === id ? { ...item, active: true } : item)
         )
       },
       error: (error: Error) => {
-        console.error('Error occured while activating the alert', error);
+        this.showSnackBar('snackbar-error', 'Error occured while activating the alert');
       },
     });
   }
@@ -270,11 +272,11 @@ export class NotificationsComponent implements OnInit {
   deleteAlert(id: number): void {
     this.notificationsService.deleteAlert(id).subscribe({
       next: () => {
-        console.log('Alert successfully deleted');
+        this.showSnackBar('snackbar-success', 'Alert successfully deleted');
         this.alerts = this.alerts.filter(item => item.id !== id);
       },
       error: (error: Error) => {
-        console.error('Error occured while deleting the alert', error);
+        this.showSnackBar('snackbar-error', 'Error occured while deleting the alert');
       },
     });
   }
@@ -317,9 +319,10 @@ export class NotificationsComponent implements OnInit {
       this.notificationsService.createAlert(formData).subscribe({
         next: (response: AlertData) => {
           this.alerts.push(response);
+          this.showSnackBar('snackbar-success', 'Alert created successfully');
         },
         error: (error: Error) => {
-          console.error('Error creating new alert:', error.message);
+          this.showSnackBar('snackbar-error', 'Error creating new alert');
         }
       })
     }
@@ -327,6 +330,10 @@ export class NotificationsComponent implements OnInit {
 
   resetInput() {
     this.tokenField?.setValue('');
+  }
+
+  private showSnackBar(type: string, message: string) {
+    this.snackBar.open(message, 'Close', { duration: 3000, panelClass: ['custom-snackbar', type], horizontalPosition: 'right'});
   }
 
   ngOnDestroy(): void {

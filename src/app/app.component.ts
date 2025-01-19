@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './core/header/header.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import * as jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, MatSnackBarModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
   showHeader: boolean = true;

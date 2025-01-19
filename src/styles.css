@@ -50,3 +50,21 @@ a:hover {
 .accented {
   color: var(--secondary-color);
 }
+
+html {
+  --mdc-snackbar-container-color: var(--primary-grey);
+  --mdc-snackbar-supporting-text-color: white;
+  --mat-snack-bar-button-color: var(--secondary-grey);
+}
+
+.snackbar-success .mdc-snackbar__surface {
+  border: 2px solid var(--green-color);
+}
+
+.snackbar-error .mdc-snackbar__surface {
+  border: 2px solid var(--red-color);
+}
+
+.snackbar-warning .mdc-snackbar__surface {
+  border: 2px solid #ff9800;
+}

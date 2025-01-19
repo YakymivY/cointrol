@@ -42,6 +42,7 @@ import { OwnedAsset } from '../../interfaces/owned-asset.interface';
 import { PricePipe } from '../../pipes/price.pipe';
 import { TransactionResponse } from '../../interfaces/transaction-response.interface';
 import { UpdateService } from '../../services/update.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-new-transaction-dialog',
@@ -196,6 +197,7 @@ export class NewTransactionDialogComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<NewTransactionDialogComponent>,
     private portfolioService: PortfolioService,
     private updateService: UpdateService,
+    private snackBar: MatSnackBar,
   ) {
     this.newTransactionForm = this.fb.group({
       asset: ['', [Validators.required], [assetExistsValidator(http)]],
@@ -397,10 +399,12 @@ export class NewTransactionDialogComponent implements OnInit, OnDestroy {
           this.updateService.updateBalance(balance);
 
           this.dialogRef.close();
+
+          this.showSnackBar('snackbar-success', 'Transaction added successfully');
         },
-        error: (error: Error) => {
+        error: (error) => {
           this.isSubmitting = false;
-          this.errorMessage = error.message;
+          this.errorMessage = error.error.message;
         },
       });
     }
@@ -436,6 +440,10 @@ export class NewTransactionDialogComponent implements OnInit, OnDestroy {
           console.error(error);
         },
       });
+  }
+
+  private showSnackBar(type: string, message: string) {
+    this.snackBar.open(message, 'Close', { duration: 3000, panelClass: ['custom-snackbar', type], horizontalPosition: 'right'});
   }
 
   ngOnDestroy(): void {

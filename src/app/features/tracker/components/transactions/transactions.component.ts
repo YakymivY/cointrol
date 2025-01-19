@@ -82,7 +82,6 @@ export class TransactionsComponent implements OnInit {
   ngOnInit(): void {
     //subscribe to transactions updates
     this.updateService.transactions$.subscribe((transactions) => {
-      console.log(transactions.slice(0, this.pageSize));
       this.dataSource.data = transactions.slice(0, this.pageSize);
       this.totalRecords++;
     });

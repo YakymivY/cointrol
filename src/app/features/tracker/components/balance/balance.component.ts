@@ -10,6 +10,7 @@ import { fadeAnimation } from '../../animations/portfolio.animations';
 import { DepositResponse } from '../../interfaces/deposit-response.interface';
 import { WithdrawResponse } from '../../interfaces/withdraw-response.interface';
 import { UpdateService } from '../../services/update.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-balance',
@@ -26,6 +27,7 @@ export class BalanceComponent implements OnInit {
     private portfolioService: PortfolioService,
     private dialog: MatDialog,
     private updateService: UpdateService,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -45,29 +47,29 @@ export class BalanceComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         if (result.action === 'deposit') {
-          console.log('deposit:', result.amount);
           this.portfolioService.makeDeposit(result.amount).subscribe({
             next: (response: DepositResponse) => {
               if (this.balance) {
                 this.balance.deposit = response.deposit;
                 this.balance.balance = response.balance;
               }
+              this.showSnackBar('snackbar-success', 'Deposit successful');
             },
-            error: (error: Error) => {
-              console.log('Failed to make deposit:', error);
+            error: (error) => {
+              this.showSnackBar('snackbar-error', 'Failed to make deposit');
             },
           });
         } else if (result.action === 'withdraw') {
-          console.log('withdraw:', result.amount);
           this.portfolioService.makeWithdraw(result.amount).subscribe({
             next: (response: WithdrawResponse) => {
               if (this.balance) {
                 this.balance.withdraw = response.withdraw;
                 this.balance.balance = response.balance;
               }
+              this.showSnackBar('snackbar-success', 'Deposit successful');
             },
-            error: (error: Error) => {
-              console.log('Failed to make withdraw:', error);
+            error: (error) => {
+              this.showSnackBar('snackbar-error', 'Failed to make withdraw');
             },
           });
         }
@@ -87,8 +89,12 @@ export class BalanceComponent implements OnInit {
         this.balance = response;
       },
       error: (error: Error) => {
-        console.error('Failed getting balance', error);
+        this.showSnackBar('snackbar-error', 'Error fetching balance');
       },
     });
+  }
+
+  private showSnackBar(type: string, message: string) {
+    this.snackBar.open(message, 'Close', { duration: 3000, panelClass: ['custom-snackbar', type], horizontalPosition: 'right'});
   }
 }

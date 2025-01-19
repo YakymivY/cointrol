@@ -12,11 +12,10 @@ import {
 import { positiveNumberValidator } from '../../validators/positive-number.validator';
 
 @Component({
-  selector: 'app-operation-dialog',
-  standalone: true,
-  imports: [CommonModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
-  templateUrl: './operation-dialog.component.html',
-  styleUrl: './operation-dialog.component.css',
+    selector: 'app-operation-dialog',
+    imports: [CommonModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
+    templateUrl: './operation-dialog.component.html',
+    styleUrl: './operation-dialog.component.css'
 })
 export class OperationDialogComponent {
   operationsForm: FormGroup;

@@ -13,12 +13,11 @@ import { UpdateService } from '../../services/update.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-balance',
-  standalone: true,
-  imports: [DecimalPipe, MatButtonModule, MatDialogModule],
-  templateUrl: './balance.component.html',
-  styleUrl: './balance.component.css',
-  animations: [fadeAnimation],
+    selector: 'app-balance',
+    imports: [DecimalPipe, MatButtonModule, MatDialogModule],
+    templateUrl: './balance.component.html',
+    styleUrl: './balance.component.css',
+    animations: [fadeAnimation]
 })
 export class BalanceComponent implements OnInit {
   balance!: BalanceResponse | null;

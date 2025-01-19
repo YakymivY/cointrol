@@ -3,11 +3,10 @@ import { TelegramUser } from '../../interfaces/telegram-user.interface';
 import { NotificationsService } from '../../services/notifications.service';
 
 @Component({
-  selector: 'app-telegram-login',
-  standalone: true,
-  imports: [],
-  templateUrl: './telegram-login.component.html',
-  styleUrl: './telegram-login.component.css'
+    selector: 'app-telegram-login',
+    imports: [],
+    templateUrl: './telegram-login.component.html',
+    styleUrl: './telegram-login.component.css'
 })
 export class TelegramLoginComponent implements OnInit {
 

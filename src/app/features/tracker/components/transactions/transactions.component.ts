@@ -9,18 +9,17 @@ import { UpdateService } from '../../services/update.service';
 import { Transaction } from '../../interfaces/transaction.interface';
 
 @Component({
-  selector: 'app-transactions',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatTableModule,
-    DatePipe,
-    PricePipe,
-    DecimalPipe,
-    MatPaginator,
-  ],
-  templateUrl: './transactions.component.html',
-  styleUrl: './transactions.component.css',
+    selector: 'app-transactions',
+    imports: [
+        CommonModule,
+        MatTableModule,
+        DatePipe,
+        PricePipe,
+        DecimalPipe,
+        MatPaginator,
+    ],
+    templateUrl: './transactions.component.html',
+    styleUrl: './transactions.component.css'
 })
 export class TransactionsComponent implements OnInit {
   Math = Math;

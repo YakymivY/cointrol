@@ -5,11 +5,10 @@ import { PriceComponent } from './components/price/price.component';
 import { MetricsComponent } from './components/metrics/metrics.component';
 
 @Component({
-  selector: 'app-token',
-  standalone: true,
-  imports: [ChartComponent, PriceComponent, MetricsComponent],
-  templateUrl: './token.component.html',
-  styleUrl: './token.component.css'
+    selector: 'app-token',
+    imports: [ChartComponent, PriceComponent, MetricsComponent],
+    templateUrl: './token.component.html',
+    styleUrl: './token.component.css'
 })
 export class TokenComponent implements OnInit {
   ticker: string = '';

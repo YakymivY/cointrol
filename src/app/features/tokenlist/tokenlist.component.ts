@@ -29,22 +29,21 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'app-tokenlist',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatTableModule,
-    MatPaginator,
-    PricePipe,
-    DecimalPipe,
-    NumberAbbreviationPipe,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatAutocompleteModule,
-  ],
-  templateUrl: './tokenlist.component.html',
-  styleUrl: './tokenlist.component.css',
+    selector: 'app-tokenlist',
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatTableModule,
+        MatPaginator,
+        PricePipe,
+        DecimalPipe,
+        NumberAbbreviationPipe,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatAutocompleteModule,
+    ],
+    templateUrl: './tokenlist.component.html',
+    styleUrl: './tokenlist.component.css'
 })
 export class TokenlistComponent implements OnInit {
   dataSource: MatTableDataSource<any> = new MatTableDataSource();

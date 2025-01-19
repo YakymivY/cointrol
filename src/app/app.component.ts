@@ -5,11 +5,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import * as jwt_decode from 'jwt-decode';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, HeaderComponent, MatSnackBarModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+    selector: 'app-root',
+    imports: [RouterOutlet, HeaderComponent, MatSnackBarModule],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
   showHeader: boolean = true;

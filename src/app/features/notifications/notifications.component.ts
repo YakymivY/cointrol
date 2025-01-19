@@ -36,21 +36,20 @@ import { AccountBarComponent } from './components/account-bar/account-bar.compon
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-notifications',
-  standalone: true,
-  imports: [
-    CommonModule,
-    TelegramLoginComponent,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    AsyncPipe,
-    PricePipe,
-    AccountBarComponent,
-  ],
-  templateUrl: './notifications.component.html',
-  styleUrl: './notifications.component.css',
+    selector: 'app-notifications',
+    imports: [
+        CommonModule,
+        TelegramLoginComponent,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        AsyncPipe,
+        PricePipe,
+        AccountBarComponent,
+    ],
+    templateUrl: './notifications.component.html',
+    styleUrl: './notifications.component.css'
 })
 export class NotificationsComponent implements OnInit {
   telegramAccount!: TelegramUser;

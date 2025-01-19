@@ -5,11 +5,10 @@ import { PortfolioService } from '../../services/portfolio.service';
 import { FixedPnl } from '../../interfaces/fixed-pnl.interface';
 
 @Component({
-  selector: 'app-pnl-chart',
-  standalone: true,
-  imports: [ChartModule],
-  templateUrl: './pnl-chart.component.html',
-  styleUrl: './pnl-chart.component.css'
+    selector: 'app-pnl-chart',
+    imports: [ChartModule],
+    templateUrl: './pnl-chart.component.html',
+    styleUrl: './pnl-chart.component.css'
 })
 export class PnlChartComponent implements OnInit {
   pnlData = [

@@ -45,20 +45,19 @@ import { UpdateService } from '../../services/update.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-new-transaction-dialog',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    AsyncPipe,
-    MatButtonToggleModule,
-    MatButtonModule,
-    PricePipe,
-    DecimalPipe,
-  ],
-  templateUrl: './new-transaction-dialog.component.html',
-  styleUrl: './new-transaction-dialog.component.css',
+    selector: 'app-new-transaction-dialog',
+    imports: [
+        ReactiveFormsModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        AsyncPipe,
+        MatButtonToggleModule,
+        MatButtonModule,
+        PricePipe,
+        DecimalPipe,
+    ],
+    templateUrl: './new-transaction-dialog.component.html',
+    styleUrl: './new-transaction-dialog.component.css'
 })
 export class NewTransactionDialogComponent implements OnInit, OnDestroy {
   newTransactionForm: FormGroup;

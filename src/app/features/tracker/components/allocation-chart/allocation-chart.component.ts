@@ -7,11 +7,10 @@ import { PortfolioData } from '../../interfaces/portfolio-data.interface';
 import { defaultChartConfig, pieChartConfig } from '../../configs/chart-config';
 
 @Component({
-  selector: 'app-allocation-chart',
-  standalone: true,
-  imports: [ChartModule],
-  templateUrl: './allocation-chart.component.html',
-  styleUrl: './allocation-chart.component.css',
+    selector: 'app-allocation-chart',
+    imports: [ChartModule],
+    templateUrl: './allocation-chart.component.html',
+    styleUrl: './allocation-chart.component.css'
 })
 export class AllocationChartComponent implements OnInit {
   allocationData: AllocationItem[] = [];

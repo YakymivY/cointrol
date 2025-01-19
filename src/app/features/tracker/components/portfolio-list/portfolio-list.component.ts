@@ -10,12 +10,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { PortfolioService } from '../../services/portfolio.service';
 
 @Component({
-  selector: 'app-portfolio-list',
-  standalone: true,
-  imports: [CommonModule, MatTableModule, PricePipe, MatProgressSpinnerModule, MatTooltipModule],
-  templateUrl: './portfolio-list.component.html',
-  styleUrl: './portfolio-list.component.css',
-  animations: [fadeAnimation],
+    selector: 'app-portfolio-list',
+    imports: [CommonModule, MatTableModule, PricePipe, MatProgressSpinnerModule, MatTooltipModule],
+    templateUrl: './portfolio-list.component.html',
+    styleUrl: './portfolio-list.component.css',
+    animations: [fadeAnimation]
 })
 export class PortfolioListComponent implements OnInit {
   Math = Math;

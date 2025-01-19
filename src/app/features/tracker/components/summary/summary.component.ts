@@ -9,11 +9,10 @@ import { AllocationChartComponent } from '../allocation-chart/allocation-chart.c
 import { PnlChartComponent } from '../pnl-chart/pnl-chart.component';
 
 @Component({
-  selector: 'app-summary',
-  standalone: true,
-  imports: [CommonModule, DecimalPipe, AllocationChartComponent, PnlChartComponent],
-  templateUrl: './summary.component.html',
-  styleUrl: './summary.component.css',
+    selector: 'app-summary',
+    imports: [CommonModule, DecimalPipe, AllocationChartComponent, PnlChartComponent],
+    templateUrl: './summary.component.html',
+    styleUrl: './summary.component.css'
 })
 export class SummaryComponent implements OnInit {
   portfolioData: PortfolioData | null = {

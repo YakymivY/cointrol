@@ -14,17 +14,16 @@ import { AuthService } from '../../services/auth.service';
 import { RegisterRequest } from '../../interfaces/register-request.interface';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [
-    MatInputModule,
-    MatButtonModule,
-    MatCardModule,
-    ReactiveFormsModule,
-    RouterModule,
-  ],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
+    selector: 'app-register',
+    imports: [
+        MatInputModule,
+        MatButtonModule,
+        MatCardModule,
+        ReactiveFormsModule,
+        RouterModule,
+    ],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   registerForm: FormGroup;

@@ -6,11 +6,10 @@ import { PricePipe } from '../../../tracker/pipes/price.pipe';
 import { CoinMetrics } from '../../interfaces/coin-metrics.interface';
 
 @Component({
-  selector: 'app-metrics',
-  standalone: true,
-  imports: [DecimalPipe, DatePipe, NumberAbbreviationPipe, PricePipe],
-  templateUrl: './metrics.component.html',
-  styleUrl: './metrics.component.css'
+    selector: 'app-metrics',
+    imports: [DecimalPipe, DatePipe, NumberAbbreviationPipe, PricePipe],
+    templateUrl: './metrics.component.html',
+    styleUrl: './metrics.component.css'
 })
 export class MetricsComponent implements OnInit {
 

@@ -1,11 +1,10 @@
 import { Component, ElementRef, input, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-price',
-  standalone: true,
-  imports: [],
-  templateUrl: './price.component.html',
-  styleUrl: './price.component.css'
+    selector: 'app-price',
+    imports: [],
+    templateUrl: './price.component.html',
+    styleUrl: './price.component.css'
 })
 export class PriceComponent {
 

@@ -36,20 +36,20 @@ import { AccountBarComponent } from './components/account-bar/account-bar.compon
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-notifications',
-    imports: [
-        CommonModule,
-        TelegramLoginComponent,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatAutocompleteModule,
-        MatButtonModule,
-        AsyncPipe,
-        PricePipe,
-        AccountBarComponent,
-    ],
-    templateUrl: './notifications.component.html',
-    styleUrl: './notifications.component.css'
+  selector: 'app-notifications',
+  imports: [
+    CommonModule,
+    TelegramLoginComponent,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    AsyncPipe,
+    PricePipe,
+    AccountBarComponent,
+  ],
+  templateUrl: './notifications.component.html',
+  styleUrl: './notifications.component.css',
 })
 export class NotificationsComponent implements OnInit {
   telegramAccount!: TelegramUser;
@@ -230,6 +230,10 @@ export class NotificationsComponent implements OnInit {
         this.direction = 'below';
       }
     });
+
+    this.notificationsService.telegramUser$.subscribe((data) => {
+      this.telegramAccount = data;
+    });
   }
 
   getUserAccount(): void {
@@ -238,7 +242,10 @@ export class NotificationsComponent implements OnInit {
         this.telegramAccount = response;
       },
       error: (error: Error) => {
-        this.showSnackBar('snackbar-error', 'A telegram account was not received');
+        this.showSnackBar(
+          'snackbar-error',
+          'A telegram account was not received',
+        );
       },
     });
   }
@@ -258,12 +265,15 @@ export class NotificationsComponent implements OnInit {
     this.notificationsService.activateAlert(id).subscribe({
       next: () => {
         this.showSnackBar('snackbar-success', 'Alert successfully activated');
-        this.alerts = this.alerts.map(item => 
-          (item.id === id ? { ...item, active: true } : item)
-        )
+        this.alerts = this.alerts.map((item) =>
+          item.id === id ? { ...item, active: true } : item,
+        );
       },
       error: (error: Error) => {
-        this.showSnackBar('snackbar-error', 'Error occured while activating the alert');
+        this.showSnackBar(
+          'snackbar-error',
+          'Error occured while activating the alert',
+        );
       },
     });
   }
@@ -272,10 +282,13 @@ export class NotificationsComponent implements OnInit {
     this.notificationsService.deleteAlert(id).subscribe({
       next: () => {
         this.showSnackBar('snackbar-success', 'Alert successfully deleted');
-        this.alerts = this.alerts.filter(item => item.id !== id);
+        this.alerts = this.alerts.filter((item) => item.id !== id);
       },
       error: (error: Error) => {
-        this.showSnackBar('snackbar-error', 'Error occured while deleting the alert');
+        this.showSnackBar(
+          'snackbar-error',
+          'Error occured while deleting the alert',
+        );
       },
     });
   }
@@ -322,8 +335,8 @@ export class NotificationsComponent implements OnInit {
         },
         error: (error: Error) => {
           this.showSnackBar('snackbar-error', 'Error creating new alert');
-        }
-      })
+        },
+      });
     }
   }
 
@@ -332,7 +345,11 @@ export class NotificationsComponent implements OnInit {
   }
 
   private showSnackBar(type: string, message: string) {
-    this.snackBar.open(message, 'Close', { duration: 3000, panelClass: ['custom-snackbar', type], horizontalPosition: 'right'});
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      panelClass: ['custom-snackbar', type],
+      horizontalPosition: 'right',
+    });
   }
 
   ngOnDestroy(): void {

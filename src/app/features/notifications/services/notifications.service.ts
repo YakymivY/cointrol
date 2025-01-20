@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TelegramUser } from '../interfaces/telegram-user.interface';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Alert } from '../interfaces/alert.interface';
@@ -11,6 +11,8 @@ import { AddAlert } from '../interfaces/add-alert.interface';
   providedIn: 'root'
 })
 export class NotificationsService {
+  private telegramUserSubject = new BehaviorSubject<any>(null);
+  telegramUser$ = this.telegramUserSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -36,5 +38,9 @@ export class NotificationsService {
 
   deleteAlert(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.NOTIFICATIONS_API_BASE_URL}alerts/${id}`);
+  }
+
+  setTelegramUser(data: TelegramUser): void {
+    this.telegramUserSubject.next(data);
   }
 }

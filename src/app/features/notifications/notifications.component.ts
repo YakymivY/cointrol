@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TelegramLoginComponent } from './components/telegram-login/telegram-login.component';
 import { NotificationsService } from './services/notifications.service';
 import { TelegramUser } from './interfaces/telegram-user.interface';
@@ -180,6 +180,7 @@ export class NotificationsComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef,
   ) {
     this.notificationsForm = this.fb.group({
       token: ['', [Validators.required], [assetExistsValidator(http)]],
@@ -234,6 +235,7 @@ export class NotificationsComponent implements OnInit {
     this.notificationsService.telegramUser$.subscribe((data) => {
       this.telegramAccount = data;
       console.log('Component: ', this.telegramAccount);
+      this.cdr.detectChanges();
     });
   }
 

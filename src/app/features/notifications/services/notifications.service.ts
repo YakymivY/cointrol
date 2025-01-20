@@ -23,6 +23,10 @@ export class NotificationsService {
   getTelegramAccount(): Observable<TelegramUser> {
     return this.http.get<TelegramUser>(`${environment.NOTIFICATIONS_API_BASE_URL}telegram-auth`);
   }
+  
+  deleteTelegramAccount(): Observable<void> {
+    return this.http.delete<void>(`${environment.NOTIFICATIONS_API_BASE_URL}telegram-auth`);
+  }
 
   createAlert(data: AddAlert): Observable<AlertData> {
     return this.http.post<AlertData>(`${environment.NOTIFICATIONS_API_BASE_URL}alerts/new`, { data });
@@ -40,7 +44,7 @@ export class NotificationsService {
     return this.http.delete<void>(`${environment.NOTIFICATIONS_API_BASE_URL}alerts/${id}`);
   }
 
-  setTelegramUser(data: TelegramUser): void {
+  setTelegramUser(data: TelegramUser | null): void {
     this.telegramUserSubject.next(data);
   }
 }

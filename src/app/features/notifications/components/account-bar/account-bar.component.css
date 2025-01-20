@@ -19,6 +19,16 @@
   gap: 15px;
 }
 
+.telegram-logout-icon {
+  width: 16px;
+  filter: brightness(0.5);
+  transition: 0.2s;
+}
+
+.telegram-logout-icon:hover {
+  filter: brightness(1);
+}
+
 .telegram-image {
   width: 40px;
   border-radius: 20px;

@@ -2,8 +2,17 @@
   <div class="account-bar-inner-container">
     <h3 class="telegram-account-label">Telegram account</h3>
     <div class="telegram-container">
-      <p class="telegram-name">{{telegramAccount()?.first_name}} {{telegramAccount()?.last_name}}</p>
-      <img [src]="telegramAccount()?.photo_url" alt="" class="telegram-image">
+      <a routerLink="" class="nav__item" (click)="telegramLogout()">
+        <img
+          src="../../../../../assets/icons/logout.png"
+          alt=""
+          class="telegram-logout-icon"
+        />
+      </a>
+      <p class="telegram-name">
+        {{ telegramAccount()?.first_name }} {{ telegramAccount()?.last_name }}
+      </p>
+      <img [src]="telegramAccount()?.photo_url" alt="" class="telegram-image" />
     </div>
   </div>
 </div>

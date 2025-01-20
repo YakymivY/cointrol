@@ -39,6 +39,7 @@ export class TelegramLoginComponent implements OnInit {
   onTelegramAuth(user: TelegramUser) {
     this.notificationsService.authenticateTelegramUser(user).subscribe({
       next: (response) => {
+        console.log('Telegram unit:', response.data);
         this.notificationsService.setTelegramUser(response.data);
       },
       error: (error: Error) => {

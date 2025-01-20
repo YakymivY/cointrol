@@ -233,6 +233,7 @@ export class NotificationsComponent implements OnInit {
 
     this.notificationsService.telegramUser$.subscribe((data) => {
       this.telegramAccount = data;
+      console.log('Component: ', data);
     });
   }
 

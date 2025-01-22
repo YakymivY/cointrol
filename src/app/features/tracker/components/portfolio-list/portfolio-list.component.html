@@ -29,23 +29,30 @@
           (mouseleave)="change1hOnMouseLeave(element)"
           (focus)="change1hOnFocus()"
           [ngClass]="{
-            'change-negative': element.historicalData['1h'].change < 0,
-            'change-positive': element.historicalData['1h'].change >= 0,
+            'change-negative': element.historicalData['1h']?.change < 0,
+            'change-positive': element.historicalData['1h']?.change > 0,
           }"
         >
-          @if (showExtra1h !== element.asset) {
-            <div class="portfolio__extra" @fadeInOut>
-              @if (element.historicalData["1h"].change >= 0) {
-                ↑
-              } @else {
-                ↓
-              }
-              {{ Math.abs(element.historicalData["1h"].change) }}%
-            </div>
+          @if (
+            element.historicalData["1h"]?.change &&
+            element.historicalData["1h"]?.price
+          ) {
+            @if (showExtra1h !== element.asset) {
+              <div class="portfolio__extra" @fadeInOut>
+                @if (element.historicalData["1h"].change >= 0) {
+                  ↑
+                } @else {
+                  ↓
+                }
+                {{ Math.abs(element.historicalData["1h"].change) }}%
+              </div>
+            } @else {
+              <div class="portfolio__extra" @fadeInOut>
+                ${{ element.historicalData["1h"].price | price }}
+              </div>
+            }
           } @else {
-            <div class="portfolio__extra" @fadeInOut>
-              ${{ element.historicalData["1h"].price | price }}
-            </div>
+            ...
           }
         </td>
       </ng-container>
@@ -61,23 +68,30 @@
           (mouseleave)="change24hOnMouseLeave(element)"
           (focus)="change24hOnFocus()"
           [ngClass]="{
-            'change-negative': element.historicalData['1d'].change < 0,
-            'change-positive': element.historicalData['1d'].change >= 0,
+            'change-negative': element.historicalData['1d']?.change < 0,
+            'change-positive': element.historicalData['1d']?.change > 0,
           }"
         >
-          @if (showExtra24h !== element.asset) {
-            <div class="portfolio__extra" @fadeInOut>
-              @if (element.historicalData["1d"].change >= 0) {
-                ↑
-              } @else {
-                ↓
-              }
-              {{ Math.abs(element.historicalData["1d"].change) }}%
-            </div>
+          @if (
+            element.historicalData["1d"]?.change &&
+            element.historicalData["1d"]?.price
+          ) {
+            @if (showExtra24h !== element.asset) {
+              <div class="portfolio__extra" @fadeInOut>
+                @if (element.historicalData["1d"].change >= 0) {
+                  ↑
+                } @else {
+                  ↓
+                }
+                {{ Math.abs(element.historicalData["1d"].change) }}%
+              </div>
+            } @else {
+              <div class="portfolio__extra" @fadeInOut>
+                ${{ element.historicalData["1d"].price | price }}
+              </div>
+            }
           } @else {
-            <div class="portfolio__extra" @fadeInOut>
-              ${{ element.historicalData["1d"].price | price }}
-            </div>
+            ...
           }
         </td>
       </ng-container>
@@ -93,23 +107,30 @@
           (mouseleave)="change7dOnMouseLeave(element)"
           (focus)="change7dOnFocus()"
           [ngClass]="{
-            'change-negative': element.historicalData['7d'].change < 0,
-            'change-positive': element.historicalData['7d'].change >= 0,
+            'change-negative': element.historicalData['7d']?.change < 0,
+            'change-positive': element.historicalData['7d']?.change > 0,
           }"
         >
-          @if (showExtra7d !== element.asset) {
-            <div class="portfolio__extra" @fadeInOut>
-              @if (element.historicalData["7d"].change >= 0) {
-                ↑
-              } @else {
-                ↓
-              }
-              {{ Math.abs(element.historicalData["7d"].change) }}%
-            </div>
+          @if (
+            element.historicalData["1d"]?.change &&
+            element.historicalData["1d"]?.price
+          ) {
+            @if (showExtra7d !== element.asset) {
+              <div class="portfolio__extra" @fadeInOut>
+                @if (element.historicalData["7d"].change >= 0) {
+                  ↑
+                } @else {
+                  ↓
+                }
+                {{ Math.abs(element.historicalData["7d"].change) }}%
+              </div>
+            } @else {
+              <div class="portfolio__extra" @fadeInOut>
+                ${{ element.historicalData["7d"].price | price }}
+              </div>
+            }
           } @else {
-            <div class="portfolio__extra" @fadeInOut>
-              ${{ element.historicalData["7d"].price | price }}
-            </div>
+            ...
           }
         </td>
       </ng-container>
@@ -214,7 +235,12 @@
       <ng-container matColumnDef="fixedPnl">
         <th class="align-right" mat-header-cell *matHeaderCellDef>Fixed PnL</th>
         <td class="align-right" mat-cell *matCellDef="let element">
-          @if (element.allTimePnl >= 0) {+$} @else {-$}{{ Math.abs(element.allTimePnl) | number: "1.2-2" }}
+          @if (element.allTimePnl >= 0) {
+            +$
+          } @else {
+            -$
+          }
+          {{ Math.abs(element.allTimePnl) | number: "1.2-2" }}
         </td>
       </ng-container>
 
@@ -222,7 +248,12 @@
       <ng-container matColumnDef="totalPnl">
         <th class="align-right" mat-header-cell *matHeaderCellDef>Total PnL</th>
         <td class="align-right" mat-cell *matCellDef="let element" @fadeInOut>
-          @if (element.totalPnl >= 0) {+$} @else {-$}{{ Math.abs(element.totalPnl) | number: "1.2-2" }}
+          @if (element.totalPnl >= 0) {
+            +$
+          } @else {
+            -$
+          }
+          {{ Math.abs(element.totalPnl) | number: "1.2-2" }}
         </td>
       </ng-container>
 

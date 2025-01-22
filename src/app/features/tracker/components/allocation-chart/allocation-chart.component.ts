@@ -24,10 +24,13 @@ export class AllocationChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.reloadChart();
+  }
+
+  private reloadChart(): void {
     this.portfolioService.portfolioData$
       .pipe(
         filter((data): data is PortfolioData => data !== null),
-        take(1),
         map((data: PortfolioData) => {
           return (
             data.assets?.map<AllocationItem>((item) => ({

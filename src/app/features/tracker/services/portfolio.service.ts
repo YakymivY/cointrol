@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject, tap } from 'rxjs';
 import { BalanceResponse } from '../interfaces/balance-response.interface';
 import { environment } from '../../../../environments/environment';
 import { TransactionRequest } from '../interfaces/transaction-request.interface';
@@ -17,6 +17,9 @@ import { TransactionResponse } from '../interfaces/transaction-response.interfac
 export class PortfolioService {
   private dataSubject = new BehaviorSubject<any>(null);
   portfolioData$ = this.dataSubject.asObservable();
+
+  private fixedPnlSubject = new BehaviorSubject<FixedPnl[]>([]);
+  fixedPnlData$: Observable<FixedPnl[]> = this.fixedPnlSubject.asObservable();
 
   constructor(private http: HttpClient, private webSocketService: WebsocketService) { }
 
@@ -66,6 +69,8 @@ export class PortfolioService {
 
   //get fixed pnl data
   getFixedPnlData(): Observable<FixedPnl[]> {
-    return this.http.get<FixedPnl[]>(`${environment.API_BASE_URL}portfolio/fixed-pnl`);
+    const serverData$ = this.http.get<FixedPnl[]>(`${environment.API_BASE_URL}portfolio/fixed-pnl`);
+    serverData$.pipe(tap((data: FixedPnl[]) => this.fixedPnlSubject.next(data))).subscribe();
+    return serverData$; //optional, for additional use
   }
 }

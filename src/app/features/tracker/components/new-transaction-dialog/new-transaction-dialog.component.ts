@@ -396,6 +396,7 @@ export class NewTransactionDialogComponent implements OnInit, OnDestroy {
           const { transaction, balance } = response
           this.updateService.addTransaction([transaction]);
           this.updateService.updateBalance(balance);
+          this.portfolioService.getFixedPnlData();
 
           this.dialogRef.close();
 
